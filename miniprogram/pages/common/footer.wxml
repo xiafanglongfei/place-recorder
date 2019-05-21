@@ -1,0 +1,8 @@
+<template name="footer">
+<view class="weui-footer">
+  <view class="weui-footer__links">
+    <navigator url="" class="weui-footer__link">夏龙飞</navigator>
+  </view>
+  <view class="weui-footer__text">Copyright © 2008-2016 weui.io</view>
+</view>
+</template>

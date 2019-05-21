@@ -1,0 +1,54 @@
+<!--miniprogram/pages/footprints/footprints.wxml-->
+
+<import src="/pages/common/footer.wxml" />
+
+<view class="page">
+  <view class="page__hd">
+    <view class="page__title">历史足迹</view>
+    <!-- <view class="page__desc">表单预览</view> -->
+    <view class="page__desc">
+      <button class="weui-btn mini-btn" type="default" size="mini" bindtap='changeView'>在{{ view ? "列表中": "地图上" }}查看</button>
+    </view>
+  </view>
+
+  <view class="page__bd" wx:if="{{ !view }}">
+    <view class="weui-form-preview" wx:for="{{ queryResult }}">
+      <view class="weui-form-preview__hd">
+        <view class="weui-form-preview__item">
+          <view class="weui-form-preview__label">足迹{{ index + 1 }}</view>
+          <view class="weui-form-preview__value_in-hd">{{ item.location_details.address_component.nation }}</view>
+        </view>
+      </view>
+      <view class="weui-form-preview__bd">
+        <view class="weui-form-preview__item">
+          <view class="weui-form-preview__label">地址</view>
+          <view class="weui-form-preview__value">{{ item.location_details.formatted_addresses.recommend }}</view>
+        </view>
+        <view class="weui-form-preview__item">
+          <view class="weui-form-preview__label">详细地址</view>
+          <view class="weui-form-preview__value">{{ item.location_details.address }}</view>
+        </view>
+      </view>
+      <!-- <view class="weui-form-preview__ft">
+        <navigator url="" class="weui-form-preview__btn weui-form-preview__btn_primary" hover-class="weui-form-preview__btn_active">操作</navigator>
+      </view> -->
+    </view>
+
+    <template is="footer" data="{{text: 'forbar'}}" />
+    
+  </view>
+
+  <view class="page__bd" wx:if="{{ view }}">
+    <map longitude="{{ queryResult[0].location_details.location.lng }}" latitude="{{ queryResult[0].location_details.location.lat }}" subkey="3FOBZ-ZWAC4-5WHUK-XF4HT-PGGKV-TBB3Q" show-location scale="5" markers="{{ markers }}"></map>
+    
+    <view class="weui-footer" style="margin-top: 25px;">
+      <view class="weui-footer__links">
+        <navigator url="" class="weui-footer__link">夏龙飞</navigator>
+      </view>
+      <view class="weui-footer__text">Copyright © 2008-2016 weui.io</view>
+    </view>
+    <!-- <template is="footer" data="{{text: 'forbar'}}" /  -->
+  </view>
+
+  
+</view>

@@ -1,120 +1,200 @@
 //index.js
+
 const app = getApp()
+const util = require('../../utils/util.js')
+const QQMapWX = require('../../utils/qqmap-wx-jssdk1/qqmap-wx-jssdk.min.js')
+
+var qqmapsdk = new QQMapWX({
+  key: '3FOBZ-ZWAC4-5WHUK-XF4HT-PGGKV-TBB3Q'
+})
 
 Page({
+
+  /**
+   * 页面的初始数据
+   */
   data: {
-    avatarUrl: './user-unlogin.png',
     userInfo: {},
+    hasUserInfo: false,
+    canIUse: wx.canIUse('button.open-type.getUserInfo'),
+
+    openid: undefined,
     logged: false,
-    takeSession: false,
-    requestResult: ''
+
+    hasLocation: false,
+    wgs84: undefined,
+    gcj02: undefined,
+    
+    longitude: undefined,
+    latitude: undefined,
+
+    name: undefined,
+    address: undefined,
+    date: undefined,
+
+    location_details: undefined
+
+  },
+  
+  /**
+   * 生命周期函数--监听页面加载
+   */
+  onLoad: function(options) {
+    
   },
 
-  onLoad: function() {
-    if (!wx.cloud) {
-      wx.redirectTo({
-        url: '../chooseLib/chooseLib',
-      })
-      return
-    }
+  /**
+   * 生命周期函数--监听页面初次渲染完成
+   */
+  onReady: function() {
 
-    // 获取用户信息
-    wx.getSetting({
+  },
+
+  /**
+   * 生命周期函数--监听页面显示
+   */
+  onShow: function() {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面隐藏
+   */
+  onHide: function() {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面卸载
+   */
+  onUnload: function() {
+
+  },
+
+  /**
+   * 页面相关事件处理函数--监听用户下拉动作
+   */
+  onPullDownRefresh: function() {
+
+  },
+
+  /**
+   * 页面上拉触底事件的处理函数
+   */
+  onReachBottom: function() {
+
+  },
+
+  /**
+   * 用户点击右上角分享
+   */
+  onShareAppMessage: function() {
+
+  },
+
+  // onGetUserInfo: function (e) {
+  //   app.globalData.userInfo = e.detail.userInfo
+  //   if (!this.logged && e.detail.userInfo) {
+  //     this.setData({
+  //       userInfo: e.detail.userInfo,
+  //       hasUserInfo: true
+  //     })
+  //   }
+  // },
+
+  // onGetOpenid: function () {
+  //   // 调用云函数
+  //   wx.cloud.callFunction({
+  //     name: 'login',
+  //     data: {},
+  //     success: res => {
+  //       console.log('[云函数] [login] user openid: ', res.result.openid)
+  //       app.globalData.openid = res.result.openid
+  //     },
+  //     fail: err => {
+  //       console.error('[云函数] [login] 调用失败', err)
+  //     }
+  //   })
+  // },
+
+  chooseLocation: function(e) {
+    wx.chooseLocation({
       success: res => {
-        if (res.authSetting['scope.userInfo']) {
-          // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
-          wx.getUserInfo({
-            success: res => {
-              this.setData({
-                avatarUrl: res.userInfo.avatarUrl,
-                userInfo: res.userInfo
-              })
+        this.setData({
+          location_details: {
+            location: {
+              lat: res.latitude,
+              lng: res.longitude,
+            },
+            address: res.address,
+            formatted_addresses: {
+              recommend: res.name
             }
-          })
-        }
-      }
+          },
+          
+          hasLocation: true,
+          date: util.formatTime(new Date)
+        })
+      },
     })
   },
 
-  onGetUserInfo: function(e) {
-    if (!this.logged && e.detail.userInfo) {
-      this.setData({
-        logged: true,
-        avatarUrl: e.detail.userInfo.avatarUrl,
-        userInfo: e.detail.userInfo
-      })
-    }
-  },
+  mark: function(e) {
+    const db = wx.cloud.database()
 
-  onGetOpenid: function() {
-    // 调用云函数
-    wx.cloud.callFunction({
-      name: 'login',
-      data: {},
+    this.data.wgs84 = app.globalData.wgs84
+    this.data.gcj02 = app.globalData.gcj02
+
+    db.collection('marks').add({
+      data: {
+        wgs84: app.globalData.wgs84,
+        gcj02: app.globalData.gcj02,
+        location_details: this.data.location_details,
+        date: this.data.date
+      },
       success: res => {
-        console.log('[云函数] [login] user openid: ', res.result.openid)
-        app.globalData.openid = res.result.openid
-        wx.navigateTo({
-          url: '../userConsole/userConsole',
+        // 在返回结果中会包含新创建的记录的 _id
+        this.setData({
+          // counterId: res._id,
+          
         })
+        wx.showToast({
+          title: '打卡成功',
+        })
+        console.log('[数据库] [新增记录] 成功，记录: ', res)
+
+        console.log('[数据库] [新增记录] 成功，记录 _id: ', res._id)
       },
       fail: err => {
-        console.error('[云函数] [login] 调用失败', err)
-        wx.navigateTo({
-          url: '../deployFunctions/deployFunctions',
+        wx.showToast({
+          icon: 'none',
+          title: '打卡失败'
         })
+        console.error('[数据库] [新增记录] 失败：', err)
       }
     })
   },
 
-  // 上传图片
-  doUpload: function () {
-    // 选择图片
-    wx.chooseImage({
-      count: 1,
-      sizeType: ['compressed'],
-      sourceType: ['album', 'camera'],
-      success: function (res) {
-
-        wx.showLoading({
-          title: '上传中',
-        })
-
-        const filePath = res.tempFilePaths[0]
+  getAddress: function(e) {
+    var _this = this;
+    qqmapsdk.reverseGeocoder({
+      get_poi: 1, //是否返回周边POI列表：1.返回；0不返回(默认),非必须参数
+      success: function (res) {//成功后的回调
+        console.log(res);
+        var res = res.result;
         
-        // 上传图片
-        const cloudPath = 'my-image' + filePath.match(/\.[^.]+?$/)[0]
-        wx.cloud.uploadFile({
-          cloudPath,
-          filePath,
-          success: res => {
-            console.log('[上传文件] 成功：', res)
-
-            app.globalData.fileID = res.fileID
-            app.globalData.cloudPath = cloudPath
-            app.globalData.imagePath = filePath
-            
-            wx.navigateTo({
-              url: '../storageConsole/storageConsole'
-            })
-          },
-          fail: e => {
-            console.error('[上传文件] 失败：', e)
-            wx.showToast({
-              icon: 'none',
-              title: '上传失败',
-            })
-          },
-          complete: () => {
-            wx.hideLoading()
-          }
-        })
-
+        _this.setData({ //设置markers属性和地图位置poi，将结果在地图展示
+          location_details: res,
+          hasLocation: true,
+          date: util.formatTime(new Date)
+        });
       },
-      fail: e => {
-        console.error(e)
+      fail: function (error) {
+        console.error(error);
+      },
+      complete: function (res) {
+        console.log(res);
       }
     })
-  },
-
+  }
 })
