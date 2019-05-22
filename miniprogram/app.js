@@ -15,6 +15,7 @@ App({
       })
     }
 
+    // 登录，换取 openid
     wx.getStorage({
       key: 'openid',
       success: res => {
@@ -28,29 +29,29 @@ App({
     })
     // this.globalData.openid = wx.getStorageSync("openid")
 
-    // 获取wgs84坐标
-    wx.getLocation({
-      type: 'wgs84',
-      altitude: true,
+    // 获取用户信息
+    wx.getSetting({
       success: res => {
-        console.log("Location-wgs84", res)
-        this.globalData.wgs84 = res
-      },
-      fail: function(res) {},
-      complete: function(res) {},
+        if (res.authSetting['scope.userInfo']) {
+          // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
+          wx.getUserInfo({
+            success: res => {
+              // 可以将 res 发送给后台解码出 unionId
+              this.globalData.userInfo = res.userInfo
+              console.log(res)
+
+              // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
+              // 所以此处加入 callback 以防止这种情况
+              if (this.userInfoReadyCallback) {
+                this.userInfoReadyCallback(res)
+              }
+            }
+          })
+        }
+      }
     })
 
-    // 获取gcj02坐标
-    wx.getLocation({
-      type: 'gcj02',
-      altitude: true,
-      success: res => {
-        console.log("Location-gcj02", res)
-        this.globalData.gcj02 = res
-      },
-      fail: function(res) {},
-      complete: function(res) {},
-    })
+    
   },
 
   onGetOpenid: function() {
@@ -69,8 +70,7 @@ App({
   },
 
   globalData: {
-    userInfo: {},
-    hasUserInfo: false,
+    userInfo: undefined,
 
     openid: undefined,
     logged: false,
@@ -79,3 +79,10 @@ App({
     gcj02: undefined
   }
 })
+
+// {
+//   "pagePath": "pages/about/about",
+//   "text": "关于我们",
+//   "iconPath": "images/icon_tabBar/zuji.png",
+//   "selectedIconPath": "images/icon_tabBar/zuji_selected.png"
+// }

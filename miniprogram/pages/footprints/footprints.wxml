@@ -2,17 +2,20 @@
 
 <import src="/pages/common/footer.wxml" />
 
-<view class="page">
+<view class="page" wx:if="{{ !view }}">
   <view class="page__hd">
     <view class="page__title">历史足迹</view>
     <!-- <view class="page__desc">表单预览</view> -->
     <view class="page__desc">
-      <button class="weui-btn mini-btn" type="default" size="mini" bindtap='changeView'>在{{ view ? "列表中": "地图上" }}查看</button>
+      <!-- <button class="weui-btn mini-btn" type="default" size="mini" bindtap='changeView'>在{{ view ? "列表中": "地图上" }}查看</button> -->
+      <button class="weui-btn mini-btn" type="default" size="mini" bindtap='changeView'>在地图上查看</button>
     </view>
   </view>
 
-  <view class="page__bd" wx:if="{{ !view }}">
-    <view class="weui-form-preview" wx:for="{{ queryResult }}">
+  <view class="page__bd">
+
+    <view wx:if="{{ !queryResult.length }}" style='margin: 25px 15px;'>您暂时还没有打卡记录哦，赶紧去打卡吧！</view>
+    <view class="weui-form-preview" wx:for="{{ queryResult }}" wx:key="">
       <view class="weui-form-preview__hd">
         <view class="weui-form-preview__item">
           <view class="weui-form-preview__label">足迹{{ index + 1 }}</view>
@@ -37,18 +40,16 @@
     <template is="footer" data="{{text: 'forbar'}}" />
     
   </view>
-
-  <view class="page__bd" wx:if="{{ view }}">
-    <map longitude="{{ queryResult[0].location_details.location.lng }}" latitude="{{ queryResult[0].location_details.location.lat }}" subkey="3FOBZ-ZWAC4-5WHUK-XF4HT-PGGKV-TBB3Q" show-location scale="5" markers="{{ markers }}"></map>
-    
-    <view class="weui-footer" style="margin-top: 25px;">
-      <view class="weui-footer__links">
-        <navigator url="" class="weui-footer__link">夏龙飞</navigator>
-      </view>
-      <view class="weui-footer__text">Copyright © 2008-2016 weui.io</view>
-    </view>
-    <!-- <template is="footer" data="{{text: 'forbar'}}" /  -->
-  </view>
-
-  
 </view>
+
+<view class="page__bd" wx:if="{{ view }}">
+    <map longitude="{{ queryResult[0].location_details.location.lng }}"
+        latitude="{{ queryResult[0].location_details.location.lat }}"
+        subkey="3FOBZ-ZWAC4-5WHUK-XF4HT-PGGKV-TBB3Q"
+        show-location scale="5"
+        markers="{{ markers }}"></map>
+    
+    <view class="weui-footer" style="margin: 25px 15px 0 15px;">
+      <button class="weui-btn" type="default" bindtap='changeView'>返回列表</button>
+    </view>
+  </view>

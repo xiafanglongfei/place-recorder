@@ -3,7 +3,8 @@
     "pages/index/index",
     "pages/footprints/footprints",
     "pages/test/test",
-    "pages/logs/logs"
+    "pages/logs/logs",
+    "pages/about/about"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",

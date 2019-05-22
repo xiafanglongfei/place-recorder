@@ -34,8 +34,8 @@ Page({
       })
     }
     
-    this.onQuery()
-    console.log("onQuery")
+    // this.onQuery()
+    // console.log("onQuery")
   },
 
   /**
@@ -49,7 +49,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    this.onQuery()
   },
 
   /**
@@ -115,7 +115,7 @@ Page({
           var t = new Object;
           t.latitude = res.data[i].location_details.location.lat
           t.longitude = res.data[i].location_details.location.lng
-          t.iconPath = "/images/weizhi.png"
+          t.iconPath = "/images/location.png"
           t.width = 20
           t.height = 20
           // console.log("t", t)

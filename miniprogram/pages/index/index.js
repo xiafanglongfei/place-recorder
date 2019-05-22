@@ -14,12 +14,13 @@ Page({
    * 页面的初始数据
    */
   data: {
+    motto: '欢迎使用微信旅游打卡小程序',
     userInfo: {},
     hasUserInfo: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
 
-    openid: undefined,
-    logged: false,
+    // openid: undefined,
+    // logged: false,
 
     hasLocation: false,
     wgs84: undefined,
@@ -40,7 +41,34 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-    
+    if (app.globalData.userInfo) {
+      this.setData({
+        userInfo: app.globalData.userInfo,
+        hasUserInfo: true
+      })
+      // console.log("1")
+    } else if (this.data.canIUse) {
+      // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
+      // 所以此处加入 callback 以防止这种情况
+      app.userInfoReadyCallback = res => {
+        this.setData({
+          userInfo: res.userInfo,
+          hasUserInfo: true
+        })
+        // console.log("2")
+      }
+    } else {
+      // 在没有 open-type=getUserInfo 版本的兼容处理
+      wx.getUserInfo({
+        success: res => {
+          app.globalData.userInfo = res.userInfo
+          this.setData({
+            userInfo: res.userInfo,
+            hasUserInfo: true
+          })
+        }
+      })
+    }
   },
 
   /**
@@ -92,30 +120,21 @@ Page({
 
   },
 
-  // onGetUserInfo: function (e) {
-  //   app.globalData.userInfo = e.detail.userInfo
-  //   if (!this.logged && e.detail.userInfo) {
-  //     this.setData({
-  //       userInfo: e.detail.userInfo,
-  //       hasUserInfo: true
-  //     })
-  //   }
-  // },
+  //事件处理函数
+  bindViewTap: function () {
+    wx.navigateTo({
+      url: '../logs/logs'
+    })
+  },
 
-  // onGetOpenid: function () {
-  //   // 调用云函数
-  //   wx.cloud.callFunction({
-  //     name: 'login',
-  //     data: {},
-  //     success: res => {
-  //       console.log('[云函数] [login] user openid: ', res.result.openid)
-  //       app.globalData.openid = res.result.openid
-  //     },
-  //     fail: err => {
-  //       console.error('[云函数] [login] 调用失败', err)
-  //     }
-  //   })
-  // },
+  getUserInfo: function (e) {
+    console.log(e)
+    app.globalData.userInfo = e.detail.userInfo
+    this.setData({
+      userInfo: e.detail.userInfo,
+      hasUserInfo: true
+    })
+  },
 
   chooseLocation: function(e) {
     wx.chooseLocation({
@@ -140,11 +159,10 @@ Page({
   },
 
   mark: function(e) {
-    const db = wx.cloud.database()
-
     this.data.wgs84 = app.globalData.wgs84
     this.data.gcj02 = app.globalData.gcj02
-
+    
+    const db = wx.cloud.database()
     db.collection('marks').add({
       data: {
         wgs84: app.globalData.wgs84,
@@ -161,7 +179,7 @@ Page({
         wx.showToast({
           title: '打卡成功',
         })
-        console.log('[数据库] [新增记录] 成功，记录: ', res)
+        // console.log('[数据库] [新增记录] 成功，记录: ', res)
 
         console.log('[数据库] [新增记录] 成功，记录 _id: ', res._id)
       },
@@ -180,7 +198,7 @@ Page({
     qqmapsdk.reverseGeocoder({
       get_poi: 1, //是否返回周边POI列表：1.返回；0不返回(默认),非必须参数
       success: function (res) {//成功后的回调
-        console.log(res);
+        console.log("getAddress: ", res);
         var res = res.result;
         
         _this.setData({ //设置markers属性和地图位置poi，将结果在地图展示
@@ -195,6 +213,36 @@ Page({
       complete: function (res) {
         console.log(res);
       }
+    })
+
+    // 获取wgs84坐标
+    wx.getLocation({
+      type: 'wgs84',
+      altitude: true,
+      success: res => {
+        console.log("Location-wgs84", res)
+        this.setData({
+          wgs84: res
+        })
+        app.globalData.wgs84 = res
+      },
+      fail: function (res) { },
+      complete: function (res) { },
+    })
+
+    // 获取gcj02坐标
+    wx.getLocation({
+      type: 'gcj02',
+      altitude: true,
+      success: res => {
+        console.log("Location-gcj02", res)
+        app.globalData.gcj02 = res
+        this.setData({
+          gcj02: res
+        })
+      },
+      fail: function (res) { },
+      complete: function (res) { },
     })
   }
 })
