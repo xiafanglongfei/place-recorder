@@ -4,13 +4,14 @@
     "pages/footprints/footprints",
     "pages/test/test",
     "pages/logs/logs",
-    "pages/about/about"
+    "pages/about/about",
+    "pages/index/success/success"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#F6F6F6",
-    "navigationBarTitleText": "旅游打卡",
+    "navigationBarTitleText": "打个卡呗",
     "navigationBarTextStyle": "black"
   },
   "tabBar": {
@@ -24,8 +25,14 @@
       {
         "pagePath": "pages/footprints/footprints",
         "text": "我的足迹",
-        "iconPath": "images/icon_tabBar/zuji.png",
-        "selectedIconPath": "images/icon_tabBar/zuji_selected.png"
+        "iconPath": "images/icon_tabBar/footprint.png",
+        "selectedIconPath": "images/icon_tabBar/footprint_selected.png"
+      },
+      {
+        "pagePath": "pages/about/about",
+        "text": "关于",
+        "iconPath": "images/icon_tabBar/about.png",
+        "selectedIconPath": "images/icon_tabBar/about_selected.png"
       }
     ]
   },

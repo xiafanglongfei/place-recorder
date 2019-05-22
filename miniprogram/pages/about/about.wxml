@@ -1,37 +1,107 @@
 <!--miniprogram/pages/about/about.wxml-->
+
+<import src="/pages/common/footer.wxml" />
+
 <view class="page">
-    <view class="page__hd">
-        <view class="page__title">关于我们</view>
-        <view class="page__desc">隐私信息协议、服务协议</view>
-    </view>
-    <view class="page__bd">
-        <view class="weui-article">
-            <view class="weui-article__h1">大标题</view>
-            <view class="weui-article__section">
-                <view class="weui-article__title">章标题</view>
-                <view class="weui-article__section">
-                    <view class="weui-article__h3">1.1 节标题</view>
-                    <view class="weui-article__p">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                        consequat.
-                    </view>
-                    <view class="weui-article__p">
-                        <image class="weui-article__img" src="../images/pic_article.png" mode="aspectFit" style="height: 180px" />
-                        <image class="weui-article__img" src="../images/pic_article.png" mode="aspectFit" style="height: 180px" />
-                    </view>
-                </view>
-                <view class="weui-article__section">
-                    <view class="weui-article__h3">1.2 节标题</view>
-                    <view class="weui-article__p">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                        cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-                        proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                    </view>
-                </view>
-            </view>
+  <view class="page__hd">
+    <view class="page__title">关于“打个卡呗”</view>
+    <view class="page__desc">隐私协议、服务协议、使用说明</view>
+  </view>
+
+  <view class="page__bd">
+    <view class="weui-article">
+      <view class="weui-article__section">
+        <view class="weui-article__title">1. 写在前面</view>
+        <view class="weui-article__p">
+          欢迎你使用本人开发的微信小程序！
         </view>
+        <view class="weui-article__p">
+          我一直有个梦想，梦想去游遍全世界，虽然冷静下来想一想，这是不可能达到的。但是不能去遍所有的地方，我可以尽可能地多去一些地方啊。去一个地方在地图上打一个卡，等到地图打满之时……
+        </view>
+        <view class="weui-article__p">
+          写这个小程序的初衷就在于此，我想有一个东西去记录我所到过的地方，然后可以在中国地图或者世界地图上面标记出来，等到地图上打满了标记，岂不是很酷、很有成就感！
+        </view>
+        <!-- <view class="weui-article__p">
+                      一旦我有条件出去旅游时，我一定会不惜代价地去玩。
+                  </view> -->
+        <!-- <view class="weui-article__p">
+                      <image class="weui-article__img" src="../images/pic_article.png" mode="aspectFit" style="height: 180px" />
+                      <image class="weui-article__img" src="../images/pic_article.png" mode="aspectFit" style="height: 180px" />
+                  </view> -->
+      </view>
+
+      <view class="weui-article__section">
+        <view class="weui-article__title">2. Why me?</view>
+        <view class="weui-article__p">
+          市面上的地图产品众多，他们或多或少地都会在你不知不觉的情况下记录你的位置信息。它们其中有些也有类似于基于地理位置的打卡签到功能，比如，百度地图有“足迹”功能；高德地图虽没有“足迹”功能的入口，但是它每年年末的时候会推出一个活动，让你把你的位置信息授权给它，然后它会把你这一年所有去过的地方标记在地图上……谷歌地图暂时没有这个功能，腾讯地图有没有未知。
+        </view>
+        <view class="weui-article__p">
+          用微信小程序保留你的足迹情况就不同了：
+        </view>
+        <view class="weui-article__p">
+          - 不是所有的人都用百度地图，但是所有的人都用微信。
+        </view>
+        <view class="weui-article__p">
+          - 用一次微信不说，你还得一直用。短时间内，微信统治我国社交领域的现状不会改变。
+        </view>
+        <view class="weui-article__p">
+          - “打个卡呗”所使用的服务器由腾讯云免费提供，没有到期时间。包含2G容量的数据库，从目前的用户量看，仅仅用来存储足迹信息是用不完的。也就是说，除非主动要求删除，你在“打个卡呗”里存储的足迹信息将完完整整地、永久地保存！
+        </view>
+        <view class="weui-article__p">
+          - 用小程序不需要你单独下载应用，即开即用，方便快捷。
+        </view>
+        <view class="weui-article__p">
+          这些方面的原因，让微信小程序成为了这个功能几乎完美的载体。
+        </view>
+      </view>
+
+      <view class="weui-article__section">
+        <view class="weui-article__title">3. 服务器保留了你的哪些信息？</view>
+        <view class="weui-article__p">
+          每次在小程序中打卡，你的地理坐标（经度、纬度）、打卡时间会被上床到服务器数据库中保存。同时，为了保留以后小程序提供服务的可扩展性，你所在地理位置的名称、行政归属地、周边地理标志等信息也将一并上传。
+        </view>
+        <view class="weui-article__p">
+          不要过于担心，这些信息都将被匿名上传。
+        </view>
+        <view class="weui-article__p">
+          匿名上传的意思就是说，我从服务器上保留的地理信息中并不知道其中某条信息具体对应哪个人。你上传的信息任何人都不知道这些信息属于你，只有你自己知道。
+        </view>
+        <view class="weui-article__p">
+          所以你可以放心大胆地上传，并且在你没有主动要求的情况下，信息将会永久保存不被删除。
+        </view>
+      </view>
+
+      <view class="weui-article__section">
+        <view class="weui-article__title">4. 接下来将提供的功能</view>
+        <view class="weui-article__p">
+          由于时间仓促，目前“打个卡呗”提供的功能比较稀少，界面比较简陋。
+        </view>
+        <view class="weui-article__p">
+          接下来计划改进/推出以下功能：
+        </view>
+        <view class="weui-article__p">
+          - 对你的地理信息进行详细分析
+        </view>
+        <view class="weui-article__p">
+          - 界面更加友好的地图标记
+        </view>
+        <view class="weui-article__p">
+          请耐心等待。
+        </view>
+      </view>
+
+      <view class="weui-article__section">
+        <view class="weui-article__title">5. 写在最后</view>
+        <view class="weui-article__p">
+          希望你能够持续使用本服务，等你打卡的地方足够地多了之后，再去地图上看看，相信一定惊艳到你的！
+        </view>
+        <view class="weui-article__p">
+          谢谢你的使用！
+        </view>
+      </view>
     </view>
+
+    <template is="footer" data="{{text: 'forbar'}}" />
+    
+  </view>
 </view>

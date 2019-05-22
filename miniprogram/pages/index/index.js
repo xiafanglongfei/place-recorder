@@ -176,17 +176,19 @@ Page({
           // counterId: res._id,
           
         })
-        wx.showToast({
-          title: '打卡成功',
+        // wx.showToast({
+        //   title: '打卡成功',
+        // })
+        wx.navigateTo({
+          url: 'success/success'
         })
         // console.log('[数据库] [新增记录] 成功，记录: ', res)
-
         console.log('[数据库] [新增记录] 成功，记录 _id: ', res._id)
       },
       fail: err => {
         wx.showToast({
           icon: 'none',
-          title: '打卡失败'
+          title: '打卡失败，请联系夏龙飞'
         })
         console.error('[数据库] [新增记录] 失败：', err)
       }

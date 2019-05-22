@@ -3,16 +3,22 @@
 <import src="/pages/common/footer.wxml" />
 
 <view class="container" wx:if="{{ !hasUserInfo }}">
-  <view class="usermotto">
+  <view class="userinfo" style="margin: 0 20px;">
+    <image class="userinfo-avatar" mode="cover" src='/images/logo.png'></image>
+    <text class="userinfo-nickname">要么旅行，要么读书，</text>
+    <text class="userinfo-nickname">身体和灵魂必须有一个在路上。</text>
+    <text class="userinfo-nickname">——张小砚 《走吧，张小砚》</text>
+  </view>
+  <view class="usermotto" style='margin-top:100px;'>
     <text class="user-motto">{{ motto }}</text>
     <button class='weui-btn' type='primary' wx:if="{{ !hasUserInfo && canIUse }}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 微信登录 </button>
   </view>
 
-  <view class="weui-footer weui-footer_fixed-bottom">
+  <view class="weui-footer weui-footer_fixed-bottom" style="margin-top: 25px; margin-bottom: 40px;">
     <view class="weui-footer__links">
-      <navigator url="" class="weui-footer__link">夏龙飞</navigator>
+      <!-- <navigator url="" class="weui-footer__link">夏龙飞</navigator> -->
     </view>
-    <view class="weui-footer__text">Copyright © 2008-2016 weui.io</view>
+    <view class="weui-footer__text">Copyright © 2019 夏龙飞</view>
   </view>
 </view>
 
@@ -26,11 +32,12 @@
     <button class='weui-btn' type='primary' bindtap='getAddress'>获取当前位置</button>
   </view>
 
-  <view class="weui-footer weui-footer_fixed-bottom" style="margin-top: 25px;">
+  <view class="weui-footer weui-footer_fixed-bottom" style="margin-top: 25px; margin-bottom: 40px;">
     <view class="weui-footer__links">
-      <navigator url="" class="weui-footer__link">夏龙飞</navigator>
+      <!-- <navigator url="" class="weui-footer__link">夏龙飞</navigator> -->
+      <!-- <official-account class="weui-footer__link">夏龙飞</official-account> -->
     </view>
-    <view class="weui-footer__text">Copyright © 2008-2016 weui.io</view>
+    <view class="weui-footer__text">Copyright © 2019 夏龙飞</view>
   </view>
 
 </view>
@@ -63,13 +70,12 @@
       <button class='weui-btn' type='primary' bindtap='mark'>打卡</button>
     </view>
 
-    <view class="weui-footer" style="margin-top: 25px;">
+    <view class="weui-footer" style="margin-top: 25px; margin-bottom: 40px;">
       <view class="weui-footer__links">
-        <navigator url="" class="weui-footer__link">夏龙飞</navigator>
+        <!-- <navigator url="" class="weui-footer__link">夏龙飞</navigator> -->
       </view>
-      <view class="weui-footer__text">Copyright © 2008-2016 weui.io</view>
+      <view class="weui-footer__text">Copyright © 2019 夏龙飞</view>
     </view>
 
   </view>
-
 </view>
