@@ -25,7 +25,7 @@
       <view class="weui-form-preview__bd">
         <view class="weui-form-preview__item">
           <view class="weui-form-preview__label">时间</view>
-          <view class="weui-form-preview__value">{{ item.date }}</view>
+          <view class="weui-form-preview__value">{{ item.formatedDate }}</view>
         </view>
         <view class="weui-form-preview__item">
           <view class="weui-form-preview__label">地址</view>
