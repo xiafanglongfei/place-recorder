@@ -2,7 +2,6 @@
   "pages": [
     "pages/index/index",
     "pages/footprints/footprints",
-    "pages/test/test",
     "pages/logs/logs",
     "pages/about/about",
     "pages/index/success/success"
@@ -38,7 +37,7 @@
   },
   "permission": {
     "scope.userLocation": {
-      "desc": "你的位置信息将用于小程序位置接口的效果展示"
+      "desc": "你的位置信息将用于位置打卡服务"
     }
   },
   "sitemapLocation": "sitemap.json"

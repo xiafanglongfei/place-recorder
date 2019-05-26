@@ -25,18 +25,19 @@ Page({
     hasLocation: false,
     wgs84: undefined,
     gcj02: undefined,
-    
+
     longitude: undefined,
     latitude: undefined,
 
     name: undefined,
     address: undefined,
     date: undefined,
+    formatedDate: undefined,
 
     location_details: undefined
 
   },
-  
+
   /**
    * 生命周期函数--监听页面加载
    */
@@ -121,19 +122,26 @@ Page({
   },
 
   //事件处理函数
-  bindViewTap: function () {
+  bindViewTap: function() {
     wx.navigateTo({
       url: '../logs/logs'
     })
   },
 
-  getUserInfo: function (e) {
+  getUserInfo: function(e) {
     console.log(e)
-    app.globalData.userInfo = e.detail.userInfo
-    this.setData({
-      userInfo: e.detail.userInfo,
-      hasUserInfo: true
-    })
+    if (e.detail.userInfo) {
+      app.globalData.userInfo = e.detail.userInfo
+      this.setData({
+        userInfo: e.detail.userInfo,
+        hasUserInfo: true
+      })
+    } else {
+      wx.showToast({
+        icon: "none",
+        title: '登录失败，请重试'
+      })
+    }
   },
 
   chooseLocation: function(e) {
@@ -150,9 +158,11 @@ Page({
               recommend: res.name
             }
           },
-          
+
           hasLocation: true,
-          date: util.formatTime(new Date)
+          formatedDate: util.formatTime(new Date),
+          // date: Date.now()
+          date: Date()
         })
       },
     })
@@ -161,20 +171,20 @@ Page({
   mark: function(e) {
     this.data.wgs84 = app.globalData.wgs84
     this.data.gcj02 = app.globalData.gcj02
-    
+
     const db = wx.cloud.database()
     db.collection('marks').add({
       data: {
         wgs84: app.globalData.wgs84,
         gcj02: app.globalData.gcj02,
         location_details: this.data.location_details,
-        date: this.data.date
+        date: this.data.date,
+        formatedDate: this.data.formatedDate,
       },
       success: res => {
         // 在返回结果中会包含新创建的记录的 _id
         this.setData({
           // counterId: res._id,
-          
         })
         // wx.showToast({
         //   title: '打卡成功',
@@ -199,20 +209,22 @@ Page({
     var _this = this;
     qqmapsdk.reverseGeocoder({
       get_poi: 1, //是否返回周边POI列表：1.返回；0不返回(默认),非必须参数
-      success: function (res) {//成功后的回调
+      success: function(res) { //成功后的回调
         console.log("getAddress: ", res);
         var res = res.result;
-        
+
         _this.setData({ //设置markers属性和地图位置poi，将结果在地图展示
           location_details: res,
           hasLocation: true,
-          date: util.formatTime(new Date)
+          formatedDate: util.formatTime(new Date),
+          // date: Date.now()
+          date: Date()
         });
       },
-      fail: function (error) {
+      fail: function(error) {
         console.error(error);
       },
-      complete: function (res) {
+      complete: function(res) {
         console.log(res);
       }
     })
@@ -228,8 +240,8 @@ Page({
         })
         app.globalData.wgs84 = res
       },
-      fail: function (res) { },
-      complete: function (res) { },
+      fail: function(res) {},
+      complete: function(res) {},
     })
 
     // 获取gcj02坐标
@@ -243,8 +255,8 @@ Page({
           gcj02: res
         })
       },
-      fail: function (res) { },
-      complete: function (res) { },
+      fail: function(res) {},
+      complete: function(res) {},
     })
   }
 })

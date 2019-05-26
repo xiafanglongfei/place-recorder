@@ -1,6 +1,7 @@
 <!--miniprogram/pages/about/about.wxml-->
 
 <import src="/pages/common/footer.wxml" />
+<import src="/utils/wxParse/wxParse.wxml" />
 
 <view class="page">
   <view class="page__hd">
@@ -21,19 +22,18 @@
         <view class="weui-article__p">
           写这个小程序的初衷就在于此，我想有一个东西去记录我所到过的地方，然后可以在中国地图或者世界地图上面标记出来，等到地图上打满了标记，岂不是很酷、很有成就感！
         </view>
-        <!-- <view class="weui-article__p">
-                      一旦我有条件出去旅游时，我一定会不惜代价地去玩。
-                  </view> -->
-        <!-- <view class="weui-article__p">
-                      <image class="weui-article__img" src="../images/pic_article.png" mode="aspectFit" style="height: 180px" />
-                      <image class="weui-article__img" src="../images/pic_article.png" mode="aspectFit" style="height: 180px" />
-                  </view> -->
       </view>
 
       <view class="weui-article__section">
         <view class="weui-article__title">2. Why me?</view>
         <view class="weui-article__p">
-          市面上的地图产品众多，他们或多或少地都会在你不知不觉的情况下记录你的位置信息。它们其中有些也有类似于基于地理位置的打卡签到功能，比如，百度地图有“足迹”功能；高德地图虽没有“足迹”功能的入口，但是它每年年末的时候会推出一个活动，让你把你的位置信息授权给它，然后它会把你这一年所有去过的地方标记在地图上……谷歌地图暂时没有这个功能，腾讯地图有没有未知。
+          市面上的地图产品众多，它们或多或少地都会在你不知不觉的情况下记录你的位置信息。其中有些也有类似基于地理位置的打卡签到功能。比如，百度地图就有“足迹”功能；高德地图虽没有“足迹”功能的入口，但是它每年年末的时候会推出一个活动，让你把你的位置信息授权给它，然后它会把你这一年所有去过的地方标记在地图上……谷歌地图暂时没有这个功能，腾讯地图有没有未知。
+        </view>
+        <view class="weui-article__p">
+          你想把足迹信息保留在它们那儿，体验就太差了。一旦出现像我这样讨厌百度地图的人，岂不是完了！
+        </view>
+        <view class="weui-article__p">
+          但是，
         </view>
         <view class="weui-article__p">
           用微信小程序保留你的足迹情况就不同了：
@@ -42,7 +42,7 @@
           - 不是所有的人都用百度地图，但是所有的人都用微信。
         </view>
         <view class="weui-article__p">
-          - 用一次微信不说，你还得一直用。短时间内，微信统治我国社交领域的现状不会改变。
+          - 用一次微信不说，你还得一直用。短时间内，微信统治国人社交领域的现状不会改变。
         </view>
         <view class="weui-article__p">
           - “打个卡呗”所使用的服务器由腾讯云免费提供，没有到期时间。包含2G容量的数据库，从目前的用户量看，仅仅用来存储足迹信息是用不完的。也就是说，除非主动要求删除，你在“打个卡呗”里存储的足迹信息将完完整整地、永久地保存！
@@ -58,13 +58,13 @@
       <view class="weui-article__section">
         <view class="weui-article__title">3. 服务器保留了你的哪些信息？</view>
         <view class="weui-article__p">
-          每次在小程序中打卡，你的地理坐标（经度、纬度）、打卡时间会被上床到服务器数据库中保存。同时，为了保留以后小程序提供服务的可扩展性，你所在地理位置的名称、行政归属地、周边地理标志等信息也将一并上传。
+          每次在小程序中打卡，你的地理坐标（经度、纬度）、打卡时间会被上传到服务器数据库中保存。同时，为了保留以后小程序提供服务的可扩展性，你所在地理位置的名称、行政归属地、周边地理标志等信息也将一并上传。
         </view>
         <view class="weui-article__p">
           不要过于担心，这些信息都将被匿名上传。
         </view>
         <view class="weui-article__p">
-          匿名上传的意思就是说，我从服务器上保留的地理信息中并不知道其中某条信息具体对应哪个人。你上传的信息任何人都不知道这些信息属于你，只有你自己知道。
+          匿名上传意味着，从服务器上保留的地理信息中我并不知道其中某条信息具体对应哪个人。你上传的信息任何人都不知道这些信息属于你，只有你自己知道。
         </view>
         <view class="weui-article__p">
           所以你可以放心大胆地上传，并且在你没有主动要求的情况下，信息将会永久保存不被删除。
@@ -80,10 +80,16 @@
           接下来计划改进/推出以下功能：
         </view>
         <view class="weui-article__p">
-          - 对你的地理信息进行详细分析
+          - 更加本地化的时间显示格式
+        </view>
+        <view class="weui-article__p">
+          - 更加详细的地理位置信息分析
         </view>
         <view class="weui-article__p">
           - 界面更加友好的地图标记
+        </view>
+        <view class="weui-article__p">
+          - ……
         </view>
         <view class="weui-article__p">
           请耐心等待。
@@ -93,15 +99,37 @@
       <view class="weui-article__section">
         <view class="weui-article__title">5. 写在最后</view>
         <view class="weui-article__p">
+          如果你觉得这个小程序帮助到你了，请将它分享给更多的伙伴（点击右上角的三个点（···），然后选择“转发”）。
+        </view>
+        <view class="weui-article__p">
+          如果有任何问题或意见，敬请随时联系我（发消息至微信公众号 <text selectable style="color: green;">Aaronsz</text>）。
+        </view>
+        <view class="weui-article__p">
           希望你能够持续使用本服务，等你打卡的地方足够地多了之后，再去地图上看看，相信一定惊艳到你的！
         </view>
         <view class="weui-article__p">
           谢谢你的使用！
         </view>
       </view>
+
+      <view class="weui-article__section">
+        <view class="weui-article__title">6. 开发信息</view>
+        <view class="weui-article__p">
+          版本号：V1.1
+        </view>
+        <view class="weui-article__p">
+          更新时间：2019.5.26 
+        </view>
+        <view class="weui-article__p">
+          用户身份识别码: 
+          <text selectable style="display: block;text-align: center; color: green;">{{ openid }}</text>
+        </view>
+      </view>
+
+      <!-- <template is="wxParse" data="{{wxParseData:article.nodes}}" /> -->
     </view>
 
     <template is="footer" data="{{text: 'forbar'}}" />
-    
+
   </view>
 </view>

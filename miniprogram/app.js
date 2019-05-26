@@ -23,8 +23,9 @@ App({
         console.log(this.globalData.openid)
       },
       fail: res => {
-        this.onGetOpenid
-        // console.log(this.globalData.openid)
+        console.log("openid not found!")
+        this.onGetOpenid()
+        console.log(this.globalData.openid)
       }
     })
     // this.globalData.openid = wx.getStorageSync("openid")
@@ -62,6 +63,10 @@ App({
       success: res => {
         console.log('[云函数] [login] user openid: ', res.result.openid)
         this.globalData.openid = res.result.openid
+        wx.setStorage({
+          key: 'openid',
+          data: res.result.openid,
+        })
       },
       fail: err => {
         console.error('[云函数] [login] 调用失败', err)

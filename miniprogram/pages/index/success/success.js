@@ -65,8 +65,15 @@ Page({
   },
 
   goFootprints: function(e) {
-    wx.navigateTo({
-      url: '/pages/footprints/footprints',
+    // wx.navigateTo 不能跳转到 tabbar 页面
+    // wx.navigateTo({
+    //   url: '/pages/footprints/footprints',
+    // })
+  },
+
+  share: function(e) {
+    wx.showShareMenu({
+      withShareTicket: true
     })
   },
 

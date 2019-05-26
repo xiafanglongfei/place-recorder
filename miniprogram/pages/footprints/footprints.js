@@ -96,6 +96,7 @@ Page({
     }
 
     const db = wx.cloud.database()
+    console.log("openid", this.data.openid)
     
     db.collection('marks').where({
       _openid: this.data.openid
