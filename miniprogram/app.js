@@ -62,7 +62,8 @@ App({
       name: 'login',
       data: {},
       success: res => {
-        console.log('[云函数] [login] user openid: ', res.result.openid)
+        console.log('[云函数] [login] res: ', res)
+        console.log('[云函数] [login] res.result.openid: ', res.result.openid)
         this.globalData.openid = res.result.openid
         wx.setStorage({
           key: 'openid',
@@ -70,6 +71,7 @@ App({
         })
       },
       fail: err => {
+        // console.log("调用 login 云函数失败！", err)
         console.error('[云函数] [login] 调用失败', err)
       }
     })
