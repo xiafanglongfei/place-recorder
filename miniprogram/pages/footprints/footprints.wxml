@@ -8,7 +8,7 @@
     <!-- <view class="page__desc">表单预览</view> -->
     <view class="page__desc">
       <!-- <button class="weui-btn mini-btn" type="default" size="mini" bindtap='changeView'>在{{ view ? "列表中": "地图上" }}查看</button> -->
-      <button class="weui-btn mini-btn" type="default" size="mini" bindtap='changeView'>在地图上查看</button>
+      <button class="weui-btn mini-btn" type="default" size="mini" bindtap='changeView' style='padding-left: 14px; padding-right: 14px; '>在地图上查看</button>
     </view>
   </view>
 

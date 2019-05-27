@@ -32,6 +32,7 @@ Page({
         openid: app.globalData.openid,
         logged: true
       })
+      console.log("first callof openid in footprints: ", this.data.openid)
     }
     
     // this.onQuery()
@@ -88,7 +89,8 @@ Page({
   },
 
   onQuery: function() {
-    if (app.globalData.openid) {
+    if (!this.data.openid && app.globalData.openid) {
+      console.log("recallof openid in footprints: ", this.data.openid)
       this.setData({
         openid: app.globalData.openid,
         logged: true
@@ -96,7 +98,6 @@ Page({
     }
 
     const db = wx.cloud.database()
-    console.log("openid", this.data.openid)
     
     db.collection('marks').where({
       _openid: this.data.openid

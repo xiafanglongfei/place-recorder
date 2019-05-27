@@ -132,10 +132,21 @@ Page({
     console.log(e)
     if (e.detail.userInfo) {
       app.globalData.userInfo = e.detail.userInfo
+      console.log("初次授权 e.detail.userInfo: ", e.detail.userInfo)
       this.setData({
         userInfo: e.detail.userInfo,
         hasUserInfo: true
       })
+
+      // wx.getOpenid()
+
+      // 冗余调用一次 wx.getUserInfo()，确保云开发控制台—>运营分析->用户访问列表中出现用户详细信息。
+      wx.getUserInfo({
+        success: res => {
+          console.log("初次授权 wx.getUserInfo: ", res.userInfo)
+        }
+      })
+
     } else {
       wx.showToast({
         icon: "none",
@@ -143,6 +154,25 @@ Page({
       })
     }
   },
+
+  // getOpenid: function () {
+  //   // 调用云函数
+  //   wx.cloud.callFunction({
+  //     name: 'login',
+  //     data: {},
+  //     success: res => {
+  //       console.log('[云函数] [login] user openid: ', res.result.openid)
+  //       app.globalData.openid = res.result.openid
+  //       wx.setStorage({
+  //         key: 'openid',
+  //         data: res.result.openid,
+  //       })
+  //     },
+  //     fail: err => {
+  //       console.error('[云函数] [login] 调用失败', err)
+  //     }
+  //   })
+  // },
 
   chooseLocation: function(e) {
     wx.chooseLocation({

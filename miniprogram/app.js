@@ -13,6 +13,7 @@ App({
       wx.cloud.init({
         traceUser: true,
       })
+      console.log("wx.cloud.init success!")
     }
 
     // 登录，换取 openid
@@ -20,12 +21,11 @@ App({
       key: 'openid',
       success: res => {
         this.globalData.openid = res.data
-        console.log(this.globalData.openid)
+        console.log("wx.getStorage of openid success: ", this.globalData.openid)
       },
       fail: res => {
         console.log("openid not found!")
-        this.onGetOpenid()
-        console.log(this.globalData.openid)
+        this.getOpenid()
       }
     })
     // this.globalData.openid = wx.getStorageSync("openid")
@@ -55,7 +55,8 @@ App({
     
   },
 
-  onGetOpenid: function() {
+  getOpenid: function() {
+    console.log("getOpenid in app.js called.")
     // 调用云函数
     wx.cloud.callFunction({
       name: 'login',
@@ -84,10 +85,3 @@ App({
     gcj02: undefined
   }
 })
-
-// {
-//   "pagePath": "pages/about/about",
-//   "text": "关于我们",
-//   "iconPath": "images/icon_tabBar/zuji.png",
-//   "selectedIconPath": "images/icon_tabBar/zuji_selected.png"
-// }
