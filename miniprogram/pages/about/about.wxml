@@ -115,10 +115,10 @@
       <view class="weui-article__section">
         <view class="weui-article__title">6. 开发信息</view>
         <view class="weui-article__p">
-          版本号：V1.1.3
+          版本号：V1.1.4
         </view>
         <view class="weui-article__p">
-          更新时间：2019.5.27
+          更新时间：2019.5.28
         </view>
         <view class="weui-article__p">
           用户身份识别码: 
