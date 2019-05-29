@@ -22,18 +22,18 @@ Page({
     // openid: undefined,
     // logged: false,
 
-    hasLocation: false,
-    wgs84: undefined,
-    gcj02: undefined,
+    // wgs84: undefined,
+    // gcj02: undefined,
 
-    longitude: undefined,
-    latitude: undefined,
+    // longitude: undefined,
+    // latitude: undefined,
 
-    name: undefined,
-    address: undefined,
+    // name: undefined,
+    // address: undefined,
     date: undefined,
     formatedDate: undefined,
 
+    hasLocation: false,
     location_details: undefined
 
   },
@@ -138,7 +138,11 @@ Page({
         hasUserInfo: true
       })
 
-      // wx.getOpenid()
+      this.uploadUserInfo()
+
+      // if (!app.globalData.openid) {
+      //   getOpenid()
+      // }
 
       // 冗余调用一次 wx.getUserInfo()，确保云开发控制台—>运营分析->用户访问列表中出现用户详细信息。
       wx.getUserInfo({
@@ -155,7 +159,93 @@ Page({
     }
   },
 
-  // getOpenid: function () {
+  uploadUserInfo: function() {
+    const db = wx.cloud.database()
+    db.collection("users")
+      .where({
+        _openid: app.globalData.openid,
+      })
+      .get()
+      .then(res => {
+        // console.log("res.data: ", res.data)
+        if (!res.data.length) {
+          db.collection('users').add({
+            data: {
+              userInfo: this.data.userInfo,
+              formatedDate: util.formatTime(new Date),
+              date: Date()
+            },
+            success: res => {
+              console.log('微信登录信息上传成功', res)
+            },
+            fail: err => {
+              console.error('[数据库] [新增记录] 失败：', err)
+            }
+          })
+        } else {
+          console.log("userInfo already exists in cloud database.", res)
+        }
+      })
+      .catch(err => {
+        console.error(err)
+      })
+
+  },
+
+  updateUserInfo: function() {
+    const db = wx.cloud.database()
+
+    db.collection("users")
+      .where({
+        _openid: app.globalData.openid,
+      })
+      .get()
+      .then(res => {
+        if (!res.data.length) {
+          db.collection('users').add({
+            data: {
+              userInfo: this.data.userInfo,
+              formatedDate: util.formatTime(new Date),
+              date: Date()
+            },
+            success: res => {
+              console.log('微信登录信息上传成功', res)
+            },
+            fail: err => {
+              console.error('[数据库] [新增记录] 失败：', err)
+            }
+          })
+        // } if( res.data[0].userInfo != this.data.userInfo ) {
+        } else if (!isObjectValueEqual(res.data[0].userInfo, this.data.userInfo)) {
+          console.log("userInfo already exists in cloud database, but out of date, ready to update...", res)
+          console.log("____this.data.userInfo", this.data.userInfo)
+          console.log("____res.data[0].userInfo", res.data[0].userInfo)
+
+          db.collection('users')
+            .doc(res.data[0]._id)
+            .update({
+              data: {
+                userInfo: this.data.userInfo,
+                formatedDate: util.formatTime(new Date),
+                date: Date()
+              },
+              success: res => {
+                console.log('微信登录信息更新成功', res)
+              },
+              fail: err => {
+                console.error('[数据库] [更新记录] 失败：', err)
+              }
+            })
+        } else {
+          console.log("the most updated userInfo already exists in cloud database.", res)
+        }
+      })
+      .catch(err => {
+        console.error(err)
+      })
+  },
+
+  // getOpenid: function() {
   //   // 调用云函数
   //   wx.cloud.callFunction({
   //     name: 'login',
@@ -191,16 +281,16 @@ Page({
 
           hasLocation: true,
           formatedDate: util.formatTime(new Date),
-          // date: Date.now()
           date: Date()
+          // date: Date.now()
         })
       },
     })
   },
 
   mark: function(e) {
-    this.data.wgs84 = app.globalData.wgs84
-    this.data.gcj02 = app.globalData.gcj02
+    // this.data.wgs84 = app.globalData.wgs84
+    // this.data.gcj02 = app.globalData.gcj02
 
     const db = wx.cloud.database()
     db.collection('marks').add({
@@ -213,15 +303,16 @@ Page({
       },
       success: res => {
         // 在返回结果中会包含新创建的记录的 _id
-        this.setData({
-          // counterId: res._id,
-        })
+        this.setData({})
+
         // wx.showToast({
         //   title: '打卡成功',
         // })
+        
         wx.navigateTo({
           url: 'success/success'
         })
+        
         // console.log('[数据库] [新增记录] 成功，记录: ', res)
         console.log('[数据库] [新增记录] 成功，记录 _id: ', res._id)
       },
@@ -237,6 +328,7 @@ Page({
 
   getAddress: function(e) {
     var _this = this;
+
     qqmapsdk.reverseGeocoder({
       get_poi: 1, //是否返回周边POI列表：1.返回；0不返回(默认),非必须参数
       success: function(res) { //成功后的回调
@@ -247,7 +339,6 @@ Page({
           location_details: res,
           hasLocation: true,
           formatedDate: util.formatTime(new Date),
-          // date: Date.now()
           date: Date()
         });
       },
@@ -265,10 +356,10 @@ Page({
       altitude: true,
       success: res => {
         console.log("Location-wgs84", res)
-        this.setData({
-          wgs84: res
-        })
         app.globalData.wgs84 = res
+        // this.setData({
+        //   wgs84: res
+        // })
       },
       fail: function(res) {},
       complete: function(res) {},
@@ -281,12 +372,43 @@ Page({
       success: res => {
         console.log("Location-gcj02", res)
         app.globalData.gcj02 = res
-        this.setData({
-          gcj02: res
-        })
+        // this.setData({
+        //   gcj02: res
+        // })
       },
       fail: function(res) {},
       complete: function(res) {},
     })
+
+    // 更新服务器上保存的用户信息（如果有必要）
+    this.updateUserInfo()
   }
+
 })
+
+function isObjectValueEqual(a, b) {
+  // Of course, we can do it use for in 
+  // Create arrays of property names
+  var aProps = Object.getOwnPropertyNames(a);
+  var bProps = Object.getOwnPropertyNames(b);
+
+  // If number of properties is different,
+  // objects are not equivalent
+  if (aProps.length != bProps.length) {
+    return false;
+  }
+
+  for (var i = 0; i < aProps.length; i++) {
+    var propName = aProps[i];
+
+    // If values of same property are not equal,
+    // objects are not equivalent
+    if (a[propName] !== b[propName]) {
+      return false;
+    }
+  }
+
+  // If we made it this far, objects
+  // are considered equivalent
+  return true;
+}

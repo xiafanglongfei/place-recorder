@@ -26,7 +26,7 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
+  onLoad: function(options) {
     if (app.globalData.openid) {
       this.setData({
         openid: app.globalData.openid,
@@ -34,57 +34,54 @@ Page({
       })
       console.log("first callof openid in footprints: ", this.data.openid)
     }
-    
-    // this.onQuery()
-    // console.log("onQuery")
   },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function () {
-    
+  onReady: function() {
+    this.mapCtx = wx.createMapContext('myMap')
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function () {
+  onShow: function() {
     this.onQuery()
   },
 
   /**
    * 生命周期函数--监听页面隐藏
    */
-  onHide: function () {
+  onHide: function() {
 
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
-  onUnload: function () {
+  onUnload: function() {
 
   },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
-  onPullDownRefresh: function () {
+  onPullDownRefresh: function() {
     this.onQuery()
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
-  onReachBottom: function () {
+  onReachBottom: function() {
 
   },
 
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
+  onShareAppMessage: function() {
 
   },
 
@@ -98,7 +95,7 @@ Page({
     }
 
     const db = wx.cloud.database()
-    
+
     db.collection('marks').where({
       _openid: this.data.openid
     }).get({
@@ -113,15 +110,15 @@ Page({
         var temp = new Array;
         // console.log("res.data.length", res.data.length)
 
-        for(var i = 0; i < res.data.length; i++) {
+        for (var i = 0; i < res.data.length; i++) {
           var t = new Object;
           t.latitude = res.data[i].location_details.location.lat
           t.longitude = res.data[i].location_details.location.lng
-          t.iconPath = "/images/location.png"
-          t.width = 20
-          t.height = 20
+          // t.iconPath = "/images/location.png"
+          // t.width = 20
+          // t.height = 20
           // console.log("t", t)
-          
+
           temp.push(t)
           // console.log("temp", temp)
 
@@ -144,6 +141,23 @@ Page({
   changeView: function(e) {
     this.setData({
       view: !this.data.view
+    })
+    if (this.data.view) {
+      this.includePoints()
+    }
+  },
+
+  includePoints: function() {
+    this.mapCtx.includePoints({
+      padding: [40, 40, 40, 40],
+      // points: [{
+      //   latitude: 23.10229,
+      //   longitude: 113.3345211,
+      // }, {
+      //   latitude: 23.00229,
+      //   longitude: 113.3345211,
+      // }]
+      points: this.data.markers
     })
   }
 })
