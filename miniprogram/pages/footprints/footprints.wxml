@@ -47,7 +47,11 @@
 </view>
 
 <view wx:if="{{ view }}">
-  <map longitude="{{ queryResult[0].location_details.location.lng }}" latitude="{{ queryResult[0].location_details.location.lat }}" subkey="3FOBZ-ZWAC4-5WHUK-XF4HT-PGGKV-TBB3Q" show-location scale="5" markers="{{ markers }}"></map>
+  <map
+    id="myMap"
+    markers="{{ markers}}"
+    show-location
+  ></map>
 
   <view class="weui-footer" style="margin: 25px 15px 0 15px;">
     <button class="weui-btn" type="default" bindtap='changeView'>返回列表</button>
