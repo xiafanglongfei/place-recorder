@@ -11,7 +11,7 @@
 
   <view class="page__bd">
     <view class="weui-article">
-      <view class="weui-article__section">
+      <!-- <view class="weui-article__section">
         <view class="weui-article__title">1. 写在前面</view>
         <view class="weui-article__p">
           欢迎你使用本人开发的微信小程序！
@@ -124,9 +124,25 @@
           用户身份识别码: 
           <text selectable style="display: block;text-align: center; color: green;">{{ openid }}</text>
         </view>
-      </view>
+      </view> -->
 
-      <!-- <template is="wxParse" data="{{wxParseData:article.nodes}}" /> -->
+      <!-- 应用 wxParse 组件 -->
+      <template is="wxParse" data="{{wxParseData:article.nodes}}" />
+
+      <view class="weui-article__section">
+        <view class="weui-article__title">6. 开发信息</view>
+        <view class="weui-article__p">
+          版本号：V1.2.0
+        </view>
+        <view class="weui-article__p">
+          更新时间：2019.5.30
+        </view>
+        <view class="weui-article__p">
+          用户身份识别码: 
+          <text selectable style="display: block;text-align: center; color: green;">{{ openid }}</text>
+        </view>
+      </view>
+      
     </view>
 
     <template is="footer" data="{{text: 'forbar'}}" />

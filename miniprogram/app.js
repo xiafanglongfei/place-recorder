@@ -1,4 +1,7 @@
 //app.js
+
+const _si = require('secret-info.js')
+
 App({
   onLaunch: function() {
 
@@ -7,7 +10,7 @@ App({
     logs.unshift(Date.now())
     wx.setStorageSync('logs', logs)
 
-    /*
+    /**
      * -----------------
      * 启动时更新
      * 马上应用最新版本
@@ -35,7 +38,7 @@ App({
     updateManager.onUpdateFailed(function () {
       // 新版本下载失败
     })
-    /*
+    /**
      * -----------------
      */
 
@@ -47,10 +50,9 @@ App({
       wx.cloud.init({
         /* 
          * 上传代码时，需将 env 值手动改为 release 环境
-         * release 环境 id: release-xmrj4
-         *   test  环境 id: test-wajhw
+         * 
          */
-        env: "test-wajhw",
+        env: _si.secretInfo.envID.test,
         traceUser: true,
       })
       console.log("wx.cloud.init success!")

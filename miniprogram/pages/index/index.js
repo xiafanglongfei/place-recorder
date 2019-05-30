@@ -3,9 +3,10 @@
 const app = getApp()
 const util = require('../../utils/util.js')
 const QQMapWX = require('../../utils/qqmap-wx-jssdk1/qqmap-wx-jssdk.min.js')
+const _si = require('../../secret-info.js')
 
 var qqmapsdk = new QQMapWX({
-  key: '3FOBZ-ZWAC4-5WHUK-XF4HT-PGGKV-TBB3Q'
+  key: _si.secretInfo.qqMapSDK_key
 })
 
 Page({
@@ -215,6 +216,7 @@ Page({
               console.error('[数据库] [新增记录] 失败：', err)
             }
           })
+        // 不能直接使用 !== 判断对象值是否相等！
         // } if( res.data[0].userInfo != this.data.userInfo ) {
         } else if (!isObjectValueEqual(res.data[0].userInfo, this.data.userInfo)) {
           console.log("userInfo already exists in cloud database, but out of date, ready to update...", res)
