@@ -1,51 +1,23 @@
 <!--index.wxml-->
 
-<import src="/pages/common/footer.wxml" />
+<!-- <import src="/pages/common/footer.wxml" /> -->
 
-<view class="container" wx:if="{{ !hasUserInfo }}">
-  <view class="userinfo" style="margin: 0 20px;">
-    <image class="userinfo-avatar" mode="cover" src='/images/logo.png'></image>
+<view class="container" wx:if="{{ !hasLocation }}">
+  <view class="userinfo">
+    <image wx:if="{{!hasUserInfo && canIUse}}" class="userinfo-avatar" mode="cover" src='/images/logo.png'></image>
+    <image wx:if="{{ hasUserInfo }}" bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
+    <text wx:if="{{ hasUserInfo }}" class="userinfo-nickname">{{userInfo.nickName}}</text>
+    <text wx:if="{{ hasUserInfo }}" class="userinfo-nickname">\n</text>
     <text class="userinfo-nickname">要么旅行，要么读书，</text>
     <text class="userinfo-nickname">身体和灵魂必须有一个在路上。</text>
     <text class="userinfo-nickname">——张小砚 《走吧，张小砚》</text>
   </view>
-  <view class="usermotto" style='margin-top: 50rpx;'>
+  <view class="usermotto" style='margin-top: 15px; '>
     <text class="user-motto">{{ motto }}</text>
     <button class='weui-btn' type='primary' wx:if="{{ !hasUserInfo && canIUse }}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 微信登录 </button>
-  </view>
-
-  <view class="weui-footer weui-footer_fixed-bottom" style="margin-top: 25px; margin-bottom: 40px;">
-    <view class="weui-footer__links">
-      <!-- <navigator url="" class="weui-footer__link">夏龙飞</navigator> -->
-    </view>
-    <view class="weui-footer__text">Copyright © 2019 夏龙飞</view>
+    <button class='weui-btn' type='primary' wx:if="{{ hasUserInfo }}" bindtap='getAddress'>获取当前位置</button>
   </view>
 </view>
-
-<view class="container" wx:if="{{ !hasLocation && hasUserInfo }}">
-  <view class="userinfo">
-    <image bindtap="bindViewTap" class="userinfo-avatar" src="{{ userInfo.avatarUrl }}" mode="cover"></image>
-    <text class="userinfo-nickname">{{userInfo.nickName}}</text>
-    <text class="userinfo-nickname">\n</text>
-    <text class="userinfo-nickname">要么旅行，要么读书，</text>
-    <text class="userinfo-nickname">身体和灵魂必须有一个在路上。</text>
-    <text class="userinfo-nickname">——张小砚 《走吧，张小砚》</text>
-  </view>
-  <view class="usermotto" style='margin-top: 50rpx; '>
-    <text class="user-motto">{{ motto }}</text>
-    <button class='weui-btn' type='primary' bindtap='getAddress'>获取当前位置</button>
-  </view>
-
-  <view class="weui-footer weui-footer_fixed-bottom" style="margin-top: 25px; margin-bottom: 40px;">
-    <view class="weui-footer__links">
-      <!-- <navigator url="" class="weui-footer__link">夏龙飞</navigator> -->
-      <!-- <official-account class="weui-footer__link">夏龙飞</official-account> -->
-    </view>
-    <view class="weui-footer__text">Copyright © 2019 夏龙飞</view>
-  </view>
-
-</view>
-
 
 <view class='page' wx:if="{{ hasLocation }}">
 
@@ -69,19 +41,20 @@
       
       <map longitude="{{ location_details.location.lng }}" latitude="{{ location_details.location.lat }}" subkey="3FOBZ-ZWAC4-5WHUK-XF4HT-PGGKV-TBB3Q" show-location></map>
 
-      
       <view class="weui-cells__title">定位不准确？试试手动选择你的位置吧!</view>
       <button class='weui-btn' type='default' bindtap='chooseLocation'>打开地图选择位置</button>
       <button class='weui-btn' type='default' bindtap='getAddress'>重新获取当前位置</button>
       <button class='weui-btn' type='primary' bindtap='mark'>打卡</button>
     </view>
 
-    <view class="weui-footer" style="margin-top: 25px;">
-      <view class="weui-footer__links">
-        <!-- <navigator url="" class="weui-footer__link">夏龙飞</navigator> -->
-      </view>
-      <view class="weui-footer__text">Copyright © 2019 夏龙飞</view>
-    </view>
-
   </view>
+</view>
+
+<view class="weui-footer weui-footer_fixed-bottom">
+  <!-- <view class="weui-footer__links">
+    <navigator url="" class="weui-footer__link">底部链接</navigator>
+    <navigator url="" class="weui-footer__link">底部链接</navigator>
+  </view>
+  <view class="weui-footer__text">Copyright © 2008-2016 weui.io</view> -->
+  <view class="weui-footer__text">Copyright © 2019 夏龙飞</view>
 </view>

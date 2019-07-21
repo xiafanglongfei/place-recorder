@@ -1,7 +1,6 @@
 <!--miniprogram/pages/about/about.wxml-->
 
 <import src="/pages/common/footer.wxml" />
-<import src="/utils/wxParse/wxParse.wxml" />
 
 <view class="page">
   <view class="page__hd">
@@ -102,7 +101,8 @@
           如果你觉得这个小程序帮助到你了，请将它分享给更多的伙伴（点击右上角的菜单（···），然后选择“转发”）。
         </view>
         <view class="weui-article__p">
-          如果有任何问题或意见，敬请随时联系我（发消息至微信公众号 <text selectable style="color: green;">Aaronsz</text>）。
+          如果有任何问题或意见，敬请随时联系我（发消息至微信公众号
+          <text selectable style="color: green;">Aaronsz</text>）。
         </view>
         <view class="weui-article__p">
           希望你能够持续使用本服务，等你打卡的地方足够地多了之后，再去地图上看看，相信一定惊艳到你的！
@@ -115,21 +115,19 @@
       <view class="weui-article__section">
         <view class="weui-article__title">6. 开发信息</view>
         <view class="weui-article__p">
-          版本号：V1.2.0
+          版本号：V1.2.1
         </view>
         <view class="weui-article__p">
-          更新时间：2019.5.30
+          更新时间：2019.7.21
         </view>
         <view class="weui-article__p">
-          用户身份识别码: 
+          用户身份识别码:
           <text selectable style="display: block;text-align: center; color: green;">{{ openid }}</text>
         </view>
       </view>
-
-      <!-- <template is="wxParse" data="{{wxParseData:article.nodes}}" /> -->
     </view>
-
     <template is="footer" data="{{text: 'forbar'}}" />
-
+    <view class="weui-footer">
+    </view>
   </view>
 </view>

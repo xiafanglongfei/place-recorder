@@ -1,14 +1,16 @@
 /* miniprogram/pages/about/about.wxss */
-
 @import "/utils/wxParse/wxParse.wxss";
 
-page{
-    background-color: #FFFFFF;
-}
-image{
-    margin: 4px 0;
+page {
+  background-color: #fff;
 }
 
+image {
+  margin: 4px 0;
+}
+
+
+
 .weui-article__title {
-  margin:0 0 0.8em;
+  margin: 0 0 0.8em;
 }
