@@ -1,5 +1,4 @@
 /* miniprogram/pages/about/about.wxss */
-@import "/utils/wxParse/wxParse.wxss";
 
 page {
   background-color: #fff;

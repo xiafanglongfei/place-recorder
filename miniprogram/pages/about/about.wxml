@@ -124,10 +124,9 @@
           用户身份识别码:
           <text selectable style="display: block;text-align: center; color: green;">{{ openid }}</text>
         </view>
+        <official-account></official-account>
       </view>
     </view>
     <template is="footer" data="{{text: 'forbar'}}" />
-    <view class="weui-footer">
-    </view>
   </view>
 </view>

@@ -108,25 +108,37 @@ Page({
         // console.log('[数据库] [查询记录] 成功: ', res.data)
 
         var temp = new Array;
-        // console.log("res.data.length", res.data.length)
+        // var t = new Object;
+        // console.log("res.data.length", res.data.length)}
 
-        for (var i = 0; i < res.data.length; i++) {
+        for (var i of res.data) {
           var t = new Object;
-          t.latitude = res.data[i].location_details.location.lat
-          t.longitude = res.data[i].location_details.location.lng
+          t.latitude = i.location_details.location.lat
+          t.longitude = i.location_details.location.lng
           // t.iconPath = "/images/location.png"
           // t.width = 20
           // t.height = 20
-          // console.log("t", t)
-
+          console.log("t", t)
           temp.push(t)
-          // console.log("temp", temp)
-
-          this.setData({
-            markers: temp
-          })
         }
 
+        var sum_lat = 0
+        var sum_lng = 0
+        for (var i of temp) {
+          sum_lat += i.latitude
+          sum_lng += i.longitude
+        }
+
+        var mean_lat = sum_lat / res.data.length
+        var mean_lng = sum_lng / res.data.length
+
+        console.log("temp", temp)
+        console.log("mean", mean_lat, mean_lng)
+        this.setData({
+          markers: temp,
+          mean_lat: mean_lat,
+          mean_lng: mean_lng
+        })
       },
       fail: err => {
         wx.showToast({
@@ -143,21 +155,21 @@ Page({
       view: !this.data.view
     })
     if (this.data.view) {
-      this.includePoints()
+      // this.mapCtx.moveToLocation()
+      this.mapCtx.includePoints({
+        padding: [40, 40, 40, 40],
+        // points: [{
+        //   latitude: 23.10229,
+        //   longitude: 113.3345211,
+        // }, {
+        //   latitude: 23.00229,
+        //   longitude: 113.3345211,
+        // }]
+        points: this.data.markers,
+        success: res => {
+          console.log("Points have been successfully included!")
+        }
+      })
     }
   },
-
-  includePoints: function() {
-    this.mapCtx.includePoints({
-      padding: [40, 40, 40, 40],
-      // points: [{
-      //   latitude: 23.10229,
-      //   longitude: 113.3345211,
-      // }, {
-      //   latitude: 23.00229,
-      //   longitude: 113.3345211,
-      // }]
-      points: this.data.markers
-    })
-  }
 })

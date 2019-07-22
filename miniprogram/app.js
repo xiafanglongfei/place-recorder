@@ -1,4 +1,7 @@
 //app.js
+
+const _SI = require('secret-info.js')
+
 App({
   onLaunch: function() {
 
@@ -39,18 +42,27 @@ App({
      * -----------------
      */
 
-
+    var env = _SI.envID.release
 
     if (!wx.cloud) {
       console.error('请使用 2.2.3 或以上的基础库以使用云能力')
     } else {
+      wx.getSystemInfo({
+        success(res) {
+          console.log("mode: ",res.model)
+          console.log("pixelRatio: ", res.pixelRatio)
+          console.log("windowWidth: ", res.windowWidth)
+          console.log("windowHeight: ", res.windowHeight)
+          console.log("language: ", res.language)
+          console.log("version: ", res.version)
+          console.log("platform: ", res.platform)
+          env = (res.platform == "devtools") ? _SI.envID.test : _SI.envID.release
+
+          console.log(env)
+        }
+      })
       wx.cloud.init({
-        /* 
-         * 上传代码时，需将 env 值手动改为 release 环境
-         * release 环境 id: release-xmrj4
-         *   test  环境 id: test-wajhw
-         */
-        env: "test-wajhw",
+        env: env,
         traceUser: true,
       })
       console.log("wx.cloud.init success!")

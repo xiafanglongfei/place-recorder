@@ -48,7 +48,9 @@
 <view wx:if="{{ view }}" style='height: 100vh; '>
   <map
     id="myMap"
-    markers="{{ markers}}"
+    latitude='{{ mean_lat }}'
+    longitude='{{ mean_lng }}'
+    markers="{{ markers }}"
     show-location
   ></map>
   <button class="weui-btn mini-btn" type="default"  size="mini" bindtap='changeView' style="position: fixed; left: 10px; top: 10px; z-index: 10; margin: 0;">返回列表</button>

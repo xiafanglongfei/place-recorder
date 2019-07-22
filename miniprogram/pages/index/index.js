@@ -2,10 +2,11 @@
 
 const app = getApp()
 const util = require('../../utils/util.js')
+const _SI = require("../../secret-info.js")
 const QQMapWX = require('../../utils/qqmap-wx-jssdk1/qqmap-wx-jssdk.min.js')
 
 var qqmapsdk = new QQMapWX({
-  key: '3FOBZ-ZWAC4-5WHUK-XF4HT-PGGKV-TBB3Q'
+  key: _SI.qqMapSDK_key
 })
 
 Page({

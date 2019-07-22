@@ -1,6 +1,6 @@
 <!--index.wxml-->
 
-<!-- <import src="/pages/common/footer.wxml" /> -->
+<import src="/pages/common/footer.wxml" />
 
 <view class="container" wx:if="{{ !hasLocation }}">
   <view class="userinfo">
@@ -12,11 +12,14 @@
     <text class="userinfo-nickname">身体和灵魂必须有一个在路上。</text>
     <text class="userinfo-nickname">——张小砚 《走吧，张小砚》</text>
   </view>
-  <view class="usermotto" style='margin-top: 15px; '>
+
+  <view class="usermotto" style='margin: 15px 0; '>
     <text class="user-motto">{{ motto }}</text>
     <button class='weui-btn' type='primary' wx:if="{{ !hasUserInfo && canIUse }}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 微信登录 </button>
     <button class='weui-btn' type='primary' wx:if="{{ hasUserInfo }}" bindtap='getAddress'>获取当前位置</button>
   </view>
+
+  <template is="footer" data="{{text: 'forbar'}}" />
 </view>
 
 <view class='page' wx:if="{{ hasLocation }}">
@@ -26,35 +29,48 @@
   </view> -->
 
   <view class="page__bd page__bd_spacing">
-    <button wx:if="{{ !hasLocation }}" class='weui-btn' type='primary' bindtap='getAddress' style="margin: 80px 0;">获取当前位置</button>
 
-    <view wx:else>
-      <view class="page__desc">
-        您当前的位置是“{{ location_details.address }} {{ location_details.formatted_addresses.recommend }}”
-      </view>
-      <!-- <view class="page__desc">
+    <!-- <view class="page__desc">
+        {{ location_details.address }} {{ location_details.formatted_addresses.recommend }}
+      </view> -->
+    <!-- <view class="page__desc">
         距离您最近最著名的地方是“{{ location_details.address_reference.famous_area.title }}”
       </view> -->
-      <view class="page__desc">
-        经度{{ location_details.location.lng }}，纬度{{ location_details.location.lat }}
+    <!-- <view class="page__desc">
+        经度{{ location_details.location.lng }}
       </view>
-      
-      <map longitude="{{ location_details.location.lng }}" latitude="{{ location_details.location.lat }}" subkey="3FOBZ-ZWAC4-5WHUK-XF4HT-PGGKV-TBB3Q" show-location></map>
+      <view class="page__desc">
+        纬度{{ location_details.location.lat }}
+      </view> -->
 
-      <view class="weui-cells__title">定位不准确？试试手动选择你的位置吧!</view>
-      <button class='weui-btn' type='default' bindtap='chooseLocation'>打开地图选择位置</button>
-      <button class='weui-btn' type='default' bindtap='getAddress'>重新获取当前位置</button>
-      <button class='weui-btn' type='primary' bindtap='mark'>打卡</button>
+    <map longitude="{{ location_details.location.lng }}" latitude="{{ location_details.location.lat }}" subkey="3FOBZ-ZWAC4-5WHUK-XF4HT-PGGKV-TBB3Q" show-location></map>
+
+    <view class="weui-form-preview__bd">
+      <view class="weui-form-preview__item">
+        <view class="weui-form-preview__label">经度</view>
+        <view class="weui-form-preview__value">{{ location_details.location.lng }}</view>
+      </view>
+      <view class="weui-form-preview__item">
+        <view class="weui-form-preview__label">纬度</view>
+        <view class="weui-form-preview__value">{{ location_details.location.lat }}</view>
+      </view>
+      <view class="weui-form-preview__item">
+        <view class="weui-form-preview__label">地址</view>
+        <view class="weui-form-preview__value">{{ location_details.address }}</view>
+      </view>
+      <view class="weui-form-preview__item">
+        <view class="weui-form-preview__label"></view>
+        <view class="weui-form-preview__value">{{ location_details.formatted_addresses.recommend }}</view>
+      </view>
     </view>
 
+    <view class="weui-cells__title">定位不准确？试试手动选择你的位置吧!</view>
+    <button class='weui-btn' type='default' bindtap='chooseLocation'>打开地图选择位置</button>
+    <button class='weui-btn' type='default' bindtap='getAddress'>重新获取当前位置</button>
+    <button class='weui-btn' type='primary' bindtap='mark' style='margin-bottom: 25px'>打卡</button>
+
+    <template is="footer" data="{{text: 'forbar'}}" />
+
   </view>
 </view>
 
-<view class="weui-footer weui-footer_fixed-bottom">
-  <!-- <view class="weui-footer__links">
-    <navigator url="" class="weui-footer__link">底部链接</navigator>
-    <navigator url="" class="weui-footer__link">底部链接</navigator>
-  </view>
-  <view class="weui-footer__text">Copyright © 2008-2016 weui.io</view> -->
-  <view class="weui-footer__text">Copyright © 2019 夏龙飞</view>
-</view>
