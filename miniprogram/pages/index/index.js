@@ -23,9 +23,6 @@ Page({
     // openid: undefined,
     // logged: false,
 
-    // wgs84: undefined,
-    // gcj02: undefined,
-
     // longitude: undefined,
     // latitude: undefined,
 
@@ -268,31 +265,55 @@ Page({
   chooseLocation: function(e) {
     wx.chooseLocation({
       success: res => {
-        this.setData({
-          location_details: {
-            location: {
-              lat: res.latitude,
-              lng: res.longitude,
-            },
-            address: res.address,
-            formatted_addresses: {
-              recommend: res.name
-            }
-          },
 
-          hasLocation: true,
-          formatedDate: util.formatTime(new Date),
-          date: Date()
-          // date: Date.now()
+        // 将通过 wx.chooseLocation() 方法获取到的地理坐标通过 qqmapsdk.reverseGeocoder() 接口获取详细位置信息
+        qqmapsdk.reverseGeocoder({
+          location: {
+            latitude: res.latitude,
+            longitude: res.longitude
+          },
+          get_poi: 1,
+          success: res => { //成功后的回调
+            console.log("getAddress: ", res);
+            var res = res.result;
+
+            this.setData({ //设置markers属性和地图位置poi，将结果在地图展示
+              location_details: res,
+              hasLocation: true,
+              formatedDate: util.formatTime(new Date),
+              date: Date()
+            });
+          },
+          fail: error => {
+            console.error(error);
+          },
+          complete: res => {
+            console.log(res);
+          }
         })
+
+        // this.setData({
+        //   location_details: {
+        //     location: {
+        //       lat: res.latitude,
+        //       lng: res.longitude,
+        //     },
+        //     address: res.address,
+        //     formatted_addresses: {
+        //       recommend: res.name
+        //     }
+        //   },
+
+        //   hasLocation: true,
+        //   formatedDate: util.formatTime(new Date),
+        //   date: Date()
+        //   // date: Date.now()
+        // })
       },
     })
   },
 
   mark: function(e) {
-    // this.data.wgs84 = app.globalData.wgs84
-    // this.data.gcj02 = app.globalData.gcj02
-
     const db = wx.cloud.database()
     db.collection('marks').add({
       data: {

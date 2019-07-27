@@ -118,7 +118,8 @@ Page({
           // t.iconPath = "/images/location.png"
           // t.width = 20
           // t.height = 20
-          console.log("t", t)
+          
+          // console.log("t", t)
           temp.push(t)
         }
 
