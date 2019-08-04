@@ -115,15 +115,17 @@
       <view class="weui-article__section">
         <view class="weui-article__title">6. 开发信息</view>
         <view class="weui-article__p">
-          版本号：V1.2.3
+          版本号：V1.2.4
         </view>
         <view class="weui-article__p">
-          更新时间：2019.7.27
+          更新时间：2019.8.4
         </view>
         <view class="weui-article__p">
           用户身份识别码:
           <text selectable style="display: block;text-align: center; color: green;">{{ openid }}</text>
         </view>
+        
+        <!-- 公众号关注组件 -->
         <official-account></official-account>
       </view>
     </view>
