@@ -123,15 +123,19 @@ Page({
           temp.push(t)
         }
 
-        var sum_lat = 0
-        var sum_lng = 0
+        var max_lat = -180
+        var min_lat = 180
+        var max_lng = -180
+        var min_lng = 180
         for (var i of temp) {
-          sum_lat += i.latitude
-          sum_lng += i.longitude
+          if (i.latitude > max_lat) max_lat = i.latitude
+          if (i.latitude < min_lat) min_lat = i.latitude
+          if (i.longitude > max_lng) max_lng = i.longitude
+          if (i.longitude < min_lng) min_lng = i.longitude
         }
 
-        var mean_lat = sum_lat / res.data.length
-        var mean_lng = sum_lng / res.data.length
+        var mean_lat = (max_lat + min_lat) / 2.0
+        var mean_lng = (max_lng + min_lng) / 2.0
 
         console.log("temp", temp)
         console.log("mean", mean_lat, mean_lng)
