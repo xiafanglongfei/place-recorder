@@ -2,15 +2,17 @@
 
 const app = getApp()
 const util = require('../../utils/util.js')
-const _SI = require("../../secret-info.js")
 const QQMapWX = require('../../utils/qqmap-wx-jssdk1/qqmap-wx-jssdk.min.js')
-
-var qqmapsdk = new QQMapWX({
+const _SI = require("../../secret-info.js")
+const qqmapsdk = new QQMapWX({
   key: _SI.qqMapSDK_key
 })
+const db = wx.cloud.database()
 
-Page({
-
+/**
+ * page 配置对象
+ */
+var page = {
   /**
    * 页面的初始数据
    */
@@ -119,7 +121,7 @@ Page({
 
   },
 
-  //事件处理函数
+  // 事件处理函数
   bindViewTap: function() {
     wx.navigateTo({
       url: '../logs/logs'
@@ -158,7 +160,6 @@ Page({
   },
 
   uploadUserInfo: function() {
-    const db = wx.cloud.database()
     db.collection("users")
       .where({
         _openid: app.globalData.openid,
@@ -191,8 +192,6 @@ Page({
   },
 
   updateUserInfo: function() {
-    const db = wx.cloud.database()
-
     db.collection("users")
       .where({
         _openid: app.globalData.openid,
@@ -213,7 +212,7 @@ Page({
               console.error('[数据库] [新增记录] 失败：', err)
             }
           })
-        // } if( res.data[0].userInfo != this.data.userInfo ) {
+          // } if( res.data[0].userInfo != this.data.userInfo ) {
         } else if (!isObjectValueEqual(res.data[0].userInfo, this.data.userInfo)) {
           console.log("userInfo already exists in cloud database, but out of date, ready to update...", res)
           console.log("____this.data.userInfo", this.data.userInfo)
@@ -330,30 +329,30 @@ Page({
         // wx.showToast({
         //   title: '打卡成功',
         // })
-        
+
         wx.navigateTo({
           url: 'success/success'
         })
-        
+
         // console.log('[数据库] [新增记录] 成功，记录: ', res)
         console.log('[数据库] [新增记录] 成功，记录 _id: ', res._id)
       },
       fail: err => {
         wx.showToast({
           icon: 'none',
-          title: '打卡失败，请联系夏龙飞'
+          title: '打卡失败，请联系开发者'
         })
         console.error('[数据库] [新增记录] 失败：', err)
       }
     })
   },
 
-  getAddress: function(e) {
+  getAddress: (e) => {
     var _this = this;
 
     qqmapsdk.reverseGeocoder({
       get_poi: 1, //是否返回周边POI列表：1.返回；0不返回(默认),非必须参数
-      success: function(res) { //成功后的回调
+      success: (res) => { //成功后的回调
         console.log("getAddress: ", res);
         var res = res.result;
 
@@ -364,10 +363,10 @@ Page({
           date: Date()
         });
       },
-      fail: function(error) {
+      fail: (error) => {
         console.error(error);
       },
-      complete: function(res) {
+      complete: (res) => {
         console.log(res);
       }
     })
@@ -406,8 +405,19 @@ Page({
     this.updateUserInfo()
   }
 
-})
+}
 
+/**
+ * 调用 Page() 函数创建页面
+ * 传递的参数为 page 对象
+ */
+Page(page)
+
+
+
+/**
+ * 比较两个对象是否相等
+ */
 function isObjectValueEqual(a, b) {
   // Of course, we can do it use for in 
   // Create arrays of property names

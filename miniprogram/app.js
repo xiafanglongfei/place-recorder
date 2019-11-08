@@ -3,38 +3,6 @@
 const _SI = require('secret-info.js')
 var env
 
-/**
- * 启动时更新
- * 马上应用最新版本
- * 函数定义形式也可以是
- * function updater() {...}
- */
-var updater = function() {
-  const updateManager = wx.getUpdateManager()
-
-  updateManager.onCheckForUpdate(function(res) {
-    // 请求完新版本信息的回调
-    console.log(res.hasUpdate)
-  })
-
-  updateManager.onUpdateReady(function() {
-    wx.showModal({
-      title: '更新提示',
-      content: '新版本已经准备好，是否重启应用？',
-      success(res) {
-        if (res.confirm) {
-          // 新的版本已经下载好，调用 applyUpdate 应用新版本并重启
-          updateManager.applyUpdate()
-        }
-      }
-    })
-  })
-
-  updateManager.onUpdateFailed(function() {
-    // 新版本下载失败
-  })
-}
-
 // app 配置对象
 var app = {
   onLaunch: function() {
@@ -44,24 +12,8 @@ var app = {
     logs.unshift(Date.now())
     wx.setStorageSync('logs', logs)
 
-    updater()
-
-    if (!wx.cloud) {
-      console.error('请使用 2.2.3 或以上的基础库以使用云能力')
-    } else {
-      wx.getSystemInfo({
-        success(res) {
-          console.log("SystemInfo: ", res)
-          env = (res.platform == "devtools") ? _SI.envID.test : _SI.envID.release
-          console.log("env:", env)
-        }
-      })
-      wx.cloud.init({
-        env: env,
-        traceUser: true,
-      })
-      console.log("wx.cloud.init success!")
-    }
+    checkUpdate()
+    cloudInitialize()
 
     // 登录，换取 openid
     wx.getStorage({
@@ -136,7 +88,65 @@ var app = {
 }
 
 /**
- * 调用 App() 函数创建实例
- * 传递的参数为 app 对象
+ * 调用 App() 函数创建实例。
+ * 传递的参数为 app 对象。
  */
 App(app)
+
+
+
+/**
+ * 启动时检查更新，若有新版本，马上应用并重启。
+ * 
+ * 这里的函数定义形式也可以是 var updater = function() {...} 。
+ * 二者的区别是，变量形式的函数定义，需要考虑提前声明（需要在使用之前创建（声明）），其本质是个“函数引用”类型的变量；
+ * 而函数形式的函数定义则不用考虑提前声明。
+ */
+function checkUpdate() {
+  const updateManager = wx.getUpdateManager()
+
+  updateManager.onCheckForUpdate(function(res) {
+    // 请求完新版本信息的回调
+    console.log(res.hasUpdate)
+  })
+
+  updateManager.onUpdateReady(function() {
+    wx.showModal({
+      title: '更新提示',
+      content: '新版本已经准备好，是否重启应用？',
+      success(res) {
+        if (res.confirm) {
+          // 新的版本已经下载好，调用 applyUpdate 应用新版本并重启
+          updateManager.applyUpdate()
+        }
+      }
+    })
+  })
+
+  updateManager.onUpdateFailed(function() {
+    // 新版本下载失败
+  })
+}
+
+
+/**
+ *  云能力初始化
+ */
+function cloudInitialize() {
+  if (!wx.cloud) {
+    console.error('请使用 2.2.3 或以上的基础库以使用云能力')
+  } else {
+    wx.getSystemInfo({
+      success(res) {
+        console.log("SystemInfo: ", res)
+        env = (res.platform == "devtools") ? _SI.envID.test : _SI.envID.release
+        console.log("env:", env)
+      }
+    })
+    wx.cloud.init({
+      env: env,
+      traceUser: true,
+    })
+    console.log("wx.cloud.init success!")
+  }
+}
