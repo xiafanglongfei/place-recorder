@@ -3,12 +3,13 @@
 const _SI = require('secret-info.js')
 var env
 
+/**
+ * 启动时更新
+ * 马上应用最新版本
+ * 函数定义形式也可以是
+ * function updater() {...}
+ */
 var updater = function() {
-  /*
-   * -----------------
-   * 启动时更新
-   * 马上应用最新版本
-   */
   const updateManager = wx.getUpdateManager()
 
   updateManager.onCheckForUpdate(function(res) {
@@ -32,9 +33,6 @@ var updater = function() {
   updateManager.onUpdateFailed(function() {
     // 新版本下载失败
   })
-  /*
-   * -----------------
-   */
 }
 
 // app 配置对象
@@ -137,4 +135,8 @@ var app = {
   }
 }
 
-App(app) // 创建 app 实例
+/**
+ * 调用 App() 函数创建实例
+ * 传递的参数为 app 对象
+ */
+App(app)
