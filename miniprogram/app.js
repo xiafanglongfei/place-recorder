@@ -1,8 +1,44 @@
 //app.js
 
 const _SI = require('secret-info.js')
+var env
 
-App({
+var updater = function() {
+  /*
+   * -----------------
+   * 启动时更新
+   * 马上应用最新版本
+   */
+  const updateManager = wx.getUpdateManager()
+
+  updateManager.onCheckForUpdate(function(res) {
+    // 请求完新版本信息的回调
+    console.log(res.hasUpdate)
+  })
+
+  updateManager.onUpdateReady(function() {
+    wx.showModal({
+      title: '更新提示',
+      content: '新版本已经准备好，是否重启应用？',
+      success(res) {
+        if (res.confirm) {
+          // 新的版本已经下载好，调用 applyUpdate 应用新版本并重启
+          updateManager.applyUpdate()
+        }
+      }
+    })
+  })
+
+  updateManager.onUpdateFailed(function() {
+    // 新版本下载失败
+  })
+  /*
+   * -----------------
+   */
+}
+
+// app 配置对象
+var app = {
   onLaunch: function() {
 
     // 展示本地存储能力
@@ -10,55 +46,16 @@ App({
     logs.unshift(Date.now())
     wx.setStorageSync('logs', logs)
 
-    /*
-     * -----------------
-     * 启动时更新
-     * 马上应用最新版本
-     */
-    const updateManager = wx.getUpdateManager()
-
-    updateManager.onCheckForUpdate(function (res) {
-      // 请求完新版本信息的回调
-      console.log(res.hasUpdate)
-    })
-
-    updateManager.onUpdateReady(function () {
-      wx.showModal({
-        title: '更新提示',
-        content: '新版本已经准备好，是否重启应用？',
-        success(res) {
-          if (res.confirm) {
-            // 新的版本已经下载好，调用 applyUpdate 应用新版本并重启
-            updateManager.applyUpdate()
-          }
-        }
-      })
-    })
-
-    updateManager.onUpdateFailed(function () {
-      // 新版本下载失败
-    })
-    /*
-     * -----------------
-     */
-
-    var env = _SI.envID.release
+    updater()
 
     if (!wx.cloud) {
       console.error('请使用 2.2.3 或以上的基础库以使用云能力')
     } else {
       wx.getSystemInfo({
         success(res) {
-          console.log("mode: ",res.model)
-          console.log("pixelRatio: ", res.pixelRatio)
-          console.log("windowWidth: ", res.windowWidth)
-          console.log("windowHeight: ", res.windowHeight)
-          console.log("language: ", res.language)
-          console.log("version: ", res.version)
-          console.log("platform: ", res.platform)
+          console.log("SystemInfo: ", res)
           env = (res.platform == "devtools") ? _SI.envID.test : _SI.envID.release
-
-          console.log(env)
+          console.log("env:", env)
         }
       })
       wx.cloud.init({
@@ -104,7 +101,7 @@ App({
       }
     })
 
-    
+
   },
 
   getOpenid: function() {
@@ -138,4 +135,6 @@ App({
     wgs84: undefined,
     gcj02: undefined
   }
-})
+}
+
+App(app) // 创建 app 实例
