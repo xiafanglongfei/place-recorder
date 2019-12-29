@@ -1,10 +1,5 @@
 <template name="footer">
   <view class="weui-footer">
-    <!-- <view class="weui-footer__links">
-      <navigator url="" class="weui-footer__link">底部链接</navigator>
-      <navigator url="" class="weui-footer__link">底部链接</navigator>
-    </view>
-    <view class="weui-footer__text">Copyright © 2008-2016 weui.io</view> -->
     <view class="weui-footer__text">Copyright © 2019 夏龙飞</view>
   </view>
 </template>
