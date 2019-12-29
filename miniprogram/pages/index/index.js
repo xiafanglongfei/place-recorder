@@ -347,7 +347,7 @@ var page = {
     })
   },
 
-  getAddress: (e) => {
+  getAddress: function(e) {
     var _this = this;
 
     qqmapsdk.reverseGeocoder({
@@ -411,7 +411,7 @@ var page = {
  * 调用 Page() 函数创建页面
  * 传递的参数为 page 对象
  */
-Page(page)
+Page(page);
 
 
 
