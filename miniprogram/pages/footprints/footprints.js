@@ -2,8 +2,7 @@
 
 const app = getApp()
 
-Page({
-
+var page = {
   /**
    * 页面的初始数据
    */
@@ -87,7 +86,7 @@ Page({
 
   onQuery: function() {
     if (!this.data.openid && app.globalData.openid) {
-      console.log("recallof openid in footprints: ", this.data.openid)
+      console.log("recall of openid in footprints: ", this.data.openid)
       this.setData({
         openid: app.globalData.openid,
         logged: true
@@ -118,7 +117,7 @@ Page({
           // t.iconPath = "/images/location.png"
           // t.width = 20
           // t.height = 20
-          
+
           // console.log("t", t)
           temp.push(t)
         }
@@ -177,4 +176,6 @@ Page({
       })
     }
   },
-})
+}
+
+Page(page)
