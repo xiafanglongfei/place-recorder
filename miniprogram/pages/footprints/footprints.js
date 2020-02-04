@@ -1,6 +1,8 @@
 // miniprogram/pages/footprints/footprints.js
 
-const app = getApp()
+const app = getApp();
+const DB = wx.cloud.database();
+const MARKS = DB.collection('marks');
 
 var page = {
   /**
@@ -10,15 +12,13 @@ var page = {
     userInfo: {},
     hasUserInfo: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
-
-    openid: undefined,
+    openid: "",
     logged: false,
-
+    /**
+     * 标识：是否切换成地图视角。
+     */
     view: false,
-
-    location_details: undefined,
-
-    queryResult: undefined,
+    queryResult: [],
     markers: []
   },
 
@@ -67,14 +67,14 @@ var page = {
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function() {
-    this.onQuery()
+    this.onQuery();
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function() {
-
+    this.onQuery();
   },
 
   /**
@@ -93,56 +93,29 @@ var page = {
       })
     }
 
-    const db = wx.cloud.database()
-
-    db.collection('marks').where({
+    MARKS.where({
       _openid: this.data.openid
-    }).get({
+    }).skip(this.data.queryResult.length).get({
       success: res => {
-        this.setData({
-          // queryResult: JSON.stringify(res.data, null, 2)
-          queryResult: res.data
-        })
-        console.log('[数据库] [查询记录] 成功: ', res)
+        console.log('[数据库] [查询记录] 成功: ', res);
         // console.log('[数据库] [查询记录] 成功: ', res.data)
-
-        var temp = new Array;
-        // var t = new Object;
-        // console.log("res.data.length", res.data.length)}
-
-        for (var i of res.data) {
-          var t = new Object;
-          t.latitude = i.location_details.location.lat
-          t.longitude = i.location_details.location.lng
-          // t.iconPath = "/images/location.png"
-          // t.width = 20
-          // t.height = 20
-
-          // console.log("t", t)
-          temp.push(t)
+        var temp = this.data.queryResult;
+        // temp.push(res.data);    res.data 是一个数组，push操作会将res.data当成一个元素压入temp末尾
+        // temp = temp.concat(res.data);       concat 才是连接两个数组的正确方法，但这样会会返回一个新的数组，容易造成内存浪费
+        for (var i in res.data) {
+          temp.push(res.data[i]);
         }
-
-        var max_lat = -180
-        var min_lat = 180
-        var max_lng = -180
-        var min_lng = 180
-        for (var i of temp) {
-          if (i.latitude > max_lat) max_lat = i.latitude
-          if (i.latitude < min_lat) min_lat = i.latitude
-          if (i.longitude > max_lng) max_lng = i.longitude
-          if (i.longitude < min_lng) min_lng = i.longitude
-        }
-
-        var mean_lat = (max_lat + min_lat) / 2.0
-        var mean_lng = (max_lng + min_lng) / 2.0
-
-        console.log("temp", temp)
-        console.log("mean", mean_lat, mean_lng)
         this.setData({
-          markers: temp,
-          mean_lat: mean_lat,
-          mean_lng: mean_lng
-        })
+          queryResult: temp
+        });
+
+        var markers = parseQueryResultToMarkers(temp);
+        var center = getCenterPosition(markers);
+        this.setData({
+          markers: markers,
+          mean_lat: center.latitude,
+          mean_lng: center.longitude
+        });
       },
       fail: err => {
         wx.showToast({
@@ -176,6 +149,52 @@ var page = {
       })
     }
   },
+};
+
+Page(page);
+
+/**
+ * 提取 queryResult 中结构化的数据暂存到 temp 中
+ */
+function parseQueryResultToMarkers(queryResult) {
+  var temp = [];
+  for (var i of queryResult) {
+    // var t = new Object;
+    // t.latitude = i.location_details.location.lat;
+    // t.longitude = i.location_details.location.lng;
+    // t.iconPath = "/images/location.png"
+    // t.width = 20
+    // t.height = 20
+    // console.log("t", t)
+    // temp.push(t);
+    
+    temp.push({
+      latitude: i.location_details.location.lat,
+      longitude: i.location_details.location.lng
+    });
+  }
+  console.log("temp: ", temp);
+  return temp;
 }
 
-Page(page)
+/**
+ * 寻找经纬度的最值与均值
+ */
+function getCenterPosition(markers) {
+  var max_lat = -180;
+  var min_lat = 180;
+  var max_lng = -180;
+  var min_lng = 180;
+  for (var i of markers) {
+    if (i.latitude > max_lat) max_lat = i.latitude;
+    if (i.latitude < min_lat) min_lat = i.latitude;
+    if (i.longitude > max_lng) max_lng = i.longitude;
+    if (i.longitude < min_lng) min_lng = i.longitude;
+  }
+  var mean_lat = (max_lat + min_lat) / 2.0;
+  var mean_lng = (max_lng + min_lng) / 2.0;
+  return {
+    latitude: mean_lat,
+    longitude: mean_lng
+  };
+}

@@ -1,30 +1,30 @@
 //app.js
 
-const _SI = require('secret-info.js')
-var env
+const _SI = require('secret-info.js');
+var env;
 
 // app 配置对象
 var app = {
   onLaunch: function() {
 
     // 展示本地存储能力
-    var logs = wx.getStorageSync('logs') || []
-    logs.unshift(Date.now())
-    wx.setStorageSync('logs', logs)
+    var logs = wx.getStorageSync('logs') || [];
+    logs.unshift(Date.now());
+    wx.setStorageSync('logs', logs);
 
-    checkUpdate()
-    cloudInitialize()
+    checkUpdate();
+    cloudInitialize();
 
     // 登录，换取 openid
     wx.getStorage({
       key: 'openid',
       success: res => {
-        this.globalData.openid = res.data
-        console.log("wx.getStorage of openid success: ", this.globalData.openid)
+        this.globalData.openid = res.data;
+        console.log("wx.getStorage of openid success: ", this.globalData.openid);
       },
       fail: res => {
-        console.log("openid not found!")
-        this.getOpenid()
+        console.log("openid not found!");
+        this.getOpenid();
       }
     })
     // this.globalData.openid = wx.getStorageSync("openid")
@@ -37,41 +37,40 @@ var app = {
           wx.getUserInfo({
             success: res => {
               // 可以将 res 发送给后台解码出 unionId
-              this.globalData.userInfo = res.userInfo
-              console.log(res)
+              this.globalData.userInfo = res.userInfo;
+              console.log(res);
 
               // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
               // 所以此处加入 callback 以防止这种情况
               if (this.userInfoReadyCallback) {
-                this.userInfoReadyCallback(res)
+                this.userInfoReadyCallback(res);
               }
             }
-          })
+          });
         }
       }
-    })
+    });
 
 
   },
 
   getOpenid: function() {
-    console.log("getOpenid in app.js called.")
+    console.log("getOpenid in app.js called.");
     // 调用云函数
     wx.cloud.callFunction({
       name: 'login',
       data: {},
       success: res => {
-        console.log('[云函数] [login] res: ', res)
-        console.log('[云函数] [login] res.result.openid: ', res.result.openid)
-        this.globalData.openid = res.result.openid
+        console.log('[云函数] [login] res: ', res);
+        console.log('[云函数] [login] res.result.openid: ', res.result.openid);
+        this.globalData.openid = res.result.openid;
         wx.setStorage({
           key: 'openid',
           data: res.result.openid,
-        })
+        });
       },
       fail: err => {
-        // console.log("调用 login 云函数失败！", err)
-        console.error('[云函数] [login] 调用失败', err)
+        console.error('[云函数] [login] 调用失败', err);
       }
     })
   },
@@ -91,7 +90,7 @@ var app = {
  * 调用 App() 函数创建实例。
  * 传递的参数为 app 对象。
  */
-App(app)
+App(app);
 
 
 
@@ -138,15 +137,15 @@ function cloudInitialize() {
   } else {
     wx.getSystemInfo({
       success(res) {
-        console.log("SystemInfo: ", res)
-        env = (res.platform == "devtools") ? _SI.envID.test : _SI.envID.release
-        console.log("env:", env)
+        console.log("SystemInfo: ", res);
+        env = (res.platform == "devtools") ? _SI.envID.test : _SI.envID.release;
+        console.log("env:", env);
       }
-    })
+    });
     wx.cloud.init({
       env: env,
       traceUser: true,
-    })
-    console.log("wx.cloud.init success!")
+    });
+    console.log("wx.cloud.init success!");
   }
 }
