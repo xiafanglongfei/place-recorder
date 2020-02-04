@@ -1,6 +1,6 @@
 // miniprogram/pages/about/about.js
 
-const app = getApp()
+const app = getApp();
 
 Page({
 
@@ -17,7 +17,7 @@ Page({
   onLoad: function(options) {
     this.setData({
       openid: app.globalData.openid
-    })
+    });
   },
 
   /**
@@ -75,11 +75,11 @@ Page({
       success: function (res) {
         wx.showToast({
           title: '已复制到剪贴板',
-        })
+        });
       },
       fail: function (res) { },
       complete: function (res) { },
-    })
+    });
   },
 
   setClipboard_openid: function(e) {
@@ -88,10 +88,10 @@ Page({
       success: function(res) {
         wx.showToast({
           title: '已复制到剪贴板',
-        })
+        });
       },
       fail: function(res) {},
       complete: function(res) {},
-    })
+    });
   }
-})
+});

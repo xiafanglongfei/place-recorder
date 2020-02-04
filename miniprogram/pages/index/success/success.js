@@ -74,12 +74,12 @@ Page({
   share: function(e) {
     wx.showShareMenu({
       withShareTicket: true
-    })
+    });
   },
 
   goBack: function(e) {
     wx.navigateBack({
       delta: 1
-    })
+    });
   }
-})
+});
