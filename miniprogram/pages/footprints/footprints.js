@@ -132,16 +132,8 @@ var page = {
       view: !this.data.view
     });
     if (this.data.view) {
-      // this.mapCtx.moveToLocation()
       this.mapCtx.includePoints({
         padding: [40, 40, 40, 40],
-        // points: [{
-        //   latitude: 23.10229,
-        //   longitude: 113.3345211,
-        // }, {
-        //   latitude: 23.00229,
-        //   longitude: 113.3345211,
-        // }]
         points: this.data.markers,
         success: res => {
           console.log("Points have been successfully added!");

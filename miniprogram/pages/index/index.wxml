@@ -23,28 +23,9 @@
 </view>
 
 <view class='page' wx:if="{{ hasLocation }}">
-
-  <!-- <view class="page__hd">
-    <view class="page__title">打卡？打你妹！</view>
-  </view> -->
-
   <view class="page__bd page__bd_spacing">
-
-    <!-- <view class="page__desc">
-        {{ location_details.address }} {{ location_details.formatted_addresses.recommend }}
-      </view> -->
-    <!-- <view class="page__desc">
-        距离您最近最著名的地方是“{{ location_details.address_reference.famous_area.title }}”
-      </view> -->
-    <!-- <view class="page__desc">
-        经度{{ location_details.location.lng }}
-      </view>
-      <view class="page__desc">
-        纬度{{ location_details.location.lat }}
-      </view> -->
-
     <map longitude="{{ location_details.location.lng }}" latitude="{{ location_details.location.lat }}" subkey="3FOBZ-ZWAC4-5WHUK-XF4HT-PGGKV-TBB3Q" show-location></map>
-
+    
     <view class="weui-form-preview__bd">
       <view class="weui-form-preview__item">
         <view class="weui-form-preview__label">经度</view>

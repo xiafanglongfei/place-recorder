@@ -5,7 +5,6 @@
 <view class="page" wx:if="{{ !view }}">
   <view class="page__hd">
     <view class="page__title">历史足迹</view>
-    <!-- <view class="page__desc">表单预览</view> -->
     <view class="page__desc">
       <button class="weui-btn mini-btn" type="default" size="mini" bindtap='changeView' style='padding: 0 10px; '>在地图上查看</button>
     </view>
@@ -35,9 +34,6 @@
           <view class="weui-form-preview__value">{{ item.location_details.address }}</view>
         </view>
       </view>
-      <!-- <view class="weui-form-preview__ft">
-        <navigator url="" class="weui-form-preview__btn weui-form-preview__btn_primary" hover-class="weui-form-preview__btn_active">操作</navigator>
-      </view> -->
     </view>
 
     <template is="footer" data="{{text: 'forbar'}}" />
