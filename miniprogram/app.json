@@ -18,20 +18,20 @@
       {
         "pagePath": "pages/index/index",
         "text": "打卡",
-        "iconPath": "images/icon_tabBar/mark.png",
-        "selectedIconPath": "images/icon_tabBar/mark_selected.png"
+        "iconPath": "images/tabBar/location.png",
+        "selectedIconPath": "images/tabBar/location-selected.png"
       },
       {
         "pagePath": "pages/footprints/footprints",
         "text": "我的足迹",
-        "iconPath": "images/icon_tabBar/footprint.png",
-        "selectedIconPath": "images/icon_tabBar/footprint_selected.png"
+        "iconPath": "images/tabBar/footprint.png",
+        "selectedIconPath": "images/tabBar/footprint-selected.png"
       },
       {
         "pagePath": "pages/about/about",
         "text": "关于",
-        "iconPath": "images/icon_tabBar/about.png",
-        "selectedIconPath": "images/icon_tabBar/about_selected.png"
+        "iconPath": "images/tabBar/user.png",
+        "selectedIconPath": "images/tabBar/user-selected.png"
       }
     ]
   },
