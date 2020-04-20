@@ -49,5 +49,5 @@
     markers="{{ markers }}"
     show-location
   ></map>
-  <button class="weui-btn mini-btn" type="default"  size="mini" bindtap='changeView' style="position: fixed; left: 10px; top: 10px; z-index: 10; margin: 0;">返回列表</button>
+  <button class="weui-btn mini-btn" type="default"  size="mini" bindtap='changeView' style="position: fixed; left: 10px; top: 27px; z-index: 10; margin: 0;">返回列表</button>
 </view>
