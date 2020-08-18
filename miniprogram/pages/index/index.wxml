@@ -50,7 +50,7 @@
     <button class='weui-btn' type='default' bindtap='getAddress'>重新获取当前位置</button>
     <button class='weui-btn' type='primary' bindtap='mark' style='margin-bottom: 25px'>打卡</button>
 
-    <template is="footer" data="{{text: 'forbar'}}" />
+    <template is="footer" data="{{text: 'foobar'}}" />
 
   </view>
 </view>

@@ -1,5 +1,3 @@
-/* miniprogram/pages/about/about.wxss */
-
 page {
   background-color: #fff;
 }

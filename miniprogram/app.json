@@ -15,8 +15,7 @@
     "navigationBarTextStyle": "black"
   },
   "tabBar": {
-    "list": [
-      {
+    "list": [{
         "pagePath": "pages/index/index",
         "text": "打卡",
         "iconPath": "images/tabBar/location.png",
@@ -41,5 +40,9 @@
       "desc": "你的位置信息将用于位置打卡服务"
     }
   },
-  "sitemapLocation": "sitemap.json"
+  "sitemapLocation": "sitemap.json",
+  "useExtendedLib": {
+    "weui": true
+  }
+
 }
