@@ -10,13 +10,13 @@
     <text wx:if="{{ hasUserInfo }}" class="userinfo-nickname">\n</text>
     <text class="userinfo-nickname">要么旅行，要么读书，</text>
     <text class="userinfo-nickname">身体和灵魂必须有一个在路上。</text>
-    <text class="userinfo-nickname">——张小砚 《走吧，张小砚》</text>
+    <text class="userinfo-nickname">—— 张小砚 《走吧，张小砚》</text>
   </view>
 
   <view class="usermotto" style='margin: 15px 0; '>
     <text class="user-motto">{{ motto }}</text>
     <button class='weui-btn' type='primary' wx:if="{{ !hasUserInfo && canIUse }}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 微信登录 </button>
-    <button class='weui-btn' type='primary' wx:if="{{ hasUserInfo }}" bindtap='getAddress'>获取当前位置</button>
+    <button class='weui-btn' type='primary' wx:if="{{ hasUserInfo }}" bindtap='getAddress' style="margin:10px auto;">获取当前位置</button>
   </view>
 
   <template is="footer" data="{{text: 'forbar'}}" />

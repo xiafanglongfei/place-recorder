@@ -17,7 +17,7 @@ var page = {
     /**
      * 标识：是否切换成地图视角。
      */
-    view: false,
+    mapView: false,
     queryResult: [],
     markers: []
   },
@@ -129,9 +129,9 @@ var page = {
 
   changeView: function(e) {
     this.setData({
-      view: !this.data.view
+      mapView: !this.data.mapView
     });
-    if (this.data.view) {
+    if (this.data.mapView) {
       this.mapCtx.includePoints({
         padding: [40, 40, 40, 40],
         points: this.data.markers,
