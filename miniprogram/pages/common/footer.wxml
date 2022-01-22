@@ -1,5 +1,5 @@
 <template name="footer">
   <view class="weui-footer">
-    <view class="weui-footer__text">Copyright © 2019 夏龙飞</view>
+    <view class="weui-footer__text">Copyright © 2021 夏龙飞</view>
   </view>
 </template>

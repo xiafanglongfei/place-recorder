@@ -1,12 +1,12 @@
-<!--miniprogram/pages/footprints/footprints.wxml-->
-
 <import src="/pages/common/footer.wxml" />
 
-<view class="page" wx:if="{{ !view }}">
+<view wx:if="{{ !mapView }}">
+  <button class="weui-btn mini-btn" type="default" size="mini" bindtap='changeView' style="position: fixed; right: 10px; bottom: 10px; z-index: 10; margin: 0; width: auto;">在地图上查看</button>
+
   <view class="page__hd">
     <view class="page__title">历史足迹</view>
     <view class="page__desc">
-      <button class="weui-btn mini-btn" type="default" size="mini" bindtap='changeView' style='padding: 0 10px; '>在地图上查看</button>
+      <p>这里将显示服务器上的所有足迹。</p>
     </view>
   </view>
 
@@ -41,7 +41,7 @@
   </view>
 </view>
 
-<view wx:if="{{ view }}" style='height: 100vh; '>
+<view wx:if="{{ mapView }}" style='height: 100vh; '>
   <map
     id="myMap"
     latitude='{{ mean_lat }}'
@@ -49,5 +49,5 @@
     markers="{{ markers }}"
     show-location
   ></map>
-  <button class="weui-btn mini-btn" type="default"  size="mini" bindtap='changeView' style="position: fixed; left: 10px; top: 27px; z-index: 10; margin: 0;">返回列表</button>
+  <button class="weui-btn mini-btn" type="default" size="mini" bindtap='changeView' style="position: fixed; right: 10px; bottom: 10px; z-index: 10; margin: 0; width: auto;">返回列表</button>
 </view>
