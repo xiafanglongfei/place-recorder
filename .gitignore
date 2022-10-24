@@ -18,3 +18,5 @@ node_modules/
 
 # secret-info.js
 secret-info.js
+
+project.private.config.json

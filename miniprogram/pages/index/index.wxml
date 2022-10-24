@@ -19,7 +19,7 @@
     <button class='weui-btn' type='primary' wx:if="{{ hasUserInfo }}" bindtap='getAddress' style="margin:10px auto;">获取当前位置</button>
   </view>
 
-  <template is="footer" data="{{text: 'forbar'}}" />
+  <template is="footer" data="{{text: 'foobar'}}" />
 </view>
 
 <view class='page' wx:if="{{ hasLocation }}">
